@@ -8,7 +8,7 @@ sklep internetowy <br>
 <center>
 <% @products.each do |product| %>
 	<li>
-		<%= link_to product.name, product %>
+		<%= product.author %> <%= link_to product.title, product %>
 	</li>
 <% end %>
 </center>

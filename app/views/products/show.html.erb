@@ -1,5 +1,6 @@
-<h1><%= @product.name %></h1>
-
+<h1><%= @product.author %></h1>
+<h2>Title: <%= @product.title %></h2>
 <center>
+Price: <%= @product.price %>$ <br>
 <%= link_to "Back to "+@product.category.name, @product.category %>
 </center>
