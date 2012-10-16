@@ -2,4 +2,11 @@
 <h1> Witam w moim sklepie! </h1>
 sklep internetowy <br>
 <%= link_to "Przejrzyj kategorie", categories_path %> 
+<br>
+<h2> Lista wszystkich produktów </h2>
+<% @products.each do |product| %>
+	<li>
+		<%= link_to product.name, product %>
+	</li>
+<% end %>
 </center>
