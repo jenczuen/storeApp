@@ -3,6 +3,10 @@ class Buyer < ActiveRecord::Base
 
   has_many :orders
 
+  def hasAccount?
+    hasAccount == 't' ? true : false
+  end
+
   #ta metode koniecznie trzeba poprawic!!!!!!
   def current_order
  	orders = self.orders

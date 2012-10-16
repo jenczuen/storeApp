@@ -1,6 +1,14 @@
-<h1> Twój wózek </h1>
+<h1> Twój koszyk </h1>
 
 <center>
-Siema, Twoje miasto to <%= @buyer.city %> <br>
-Id Twojego zamówienia <%= @order.id %>
+
+<% if @buyer.hasAccount? == true %>
+	Witaj <%= @buyer.firstName %>!<br>
+<% else %>
+	Nie masz jeszcze konta w moim sklepie!<br>
+<% end %>
+
+	Koszyk utworzono: <%= @order.created_at %>
+
+
 </center>
