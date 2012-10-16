@@ -1,0 +1,6 @@
+class OrderItem < ActiveRecord::Base
+  attr_accessible :priceForAll, :quantity
+
+  belongs_to :order
+  belongs_to :product
+end

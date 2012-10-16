@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121016230905) do
+ActiveRecord::Schema.define(:version => 20121016232526) do
 
 # Could not dump table "buyers" because of following StandardError
 #   Unknown type 'bool' for column 'hasAccount'
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(:version => 20121016230905) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "order_items", :force => true do |t|
+    t.integer  "quantity"
+    t.integer  "priceForAll"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "order_id"
+    t.integer  "product_id"
   end
 
 # Could not dump table "orders" because of following StandardError

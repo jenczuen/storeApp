@@ -3,12 +3,18 @@
 <center>
 
 <% if @buyer.hasAccount? == true %>
-	Witaj <%= @buyer.firstName %>!<br>
+Witaj <%= @buyer.firstName %>!<br>
 <% else %>
-	Nie masz jeszcze konta w moim sklepie!<br>
+Nie masz jeszcze konta w moim sklepie!<br>
 <% end %>
 
-	Koszyk utworzono: <%= @order.created_at %>
+<% if @order.empty? == true %>
+Twój koszyk jest pusty! <br>
+<% else %>
+Lista rzeczy w Twoim koszyku: <br>
+<% end %>
+
+Koszyk utworzono: <%= @order.created_at %>
 
 
 </center>
