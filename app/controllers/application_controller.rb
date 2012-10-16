@@ -15,5 +15,4 @@ class ApplicationController < ActionController::Base
   	end
   	@current_buyer
   end
-
 end
