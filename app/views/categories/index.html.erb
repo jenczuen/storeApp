@@ -1,6 +1,9 @@
 <h1>Lista dostępnych kategorii</h1>
+
+<center>
 <% @categories.each do |category| %>
 	<li>
 		<%= link_to category.name, category %>
 	</li>
 <% end %>
+</center>
