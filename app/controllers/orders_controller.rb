@@ -16,13 +16,10 @@ class OrdersController < ApplicationController
 		end
 		#jezeli nie, dodajemy taki item do orderu
 		item = order.order_items.create(:quantity => 1)
-		#dodajemy produkt do itema
 		item.product_id = product_id
 		item.save
 		item.priceForAll = item.product.price
 		item.save
-		#:product_id => product_id
-		#przechodzimy do koszyka
 		redirect_to "/cart"
 	end
 

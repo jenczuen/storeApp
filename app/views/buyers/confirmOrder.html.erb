@@ -1,0 +1,27 @@
+<center>
+<% if current_buyer.hasAccount? %>
+	<%= current_buyer.firstName %>, Twoje zamówienie zostało potwierdzone! <br>
+	Id zamowienia <%= @order.id %> <br>
+<% else %>
+	<%= current_buyer.hasAccount? %> <br>
+	Nie masz konta, podaj dane do zamówienia: <br>
+    <%= form_for current_buyer do |f| %>
+      
+    	<%= f.label :firstName, "Imię" %>
+    	<%= f.text_field :firstName %>
+	
+	    <%= f.label :secondName, "Nazwisko" %>
+    	<%= f.text_field :secondName %>
+
+    	<%= f.label :street, "Ulica" %>
+    	<%= f.text_field :street %>
+
+    	<%= f.label :city, "Miasto" %>
+    	<%= f.text_field :city %>
+
+    	<%= f.hidden_field :order_id, :value => @order.id %>
+
+    	<br><%= f.submit "Potwierdź zamówienie", class: "btn btn-large btn-primary" %>	
+    <% end %>
+<% end %>
+</center>

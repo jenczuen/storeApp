@@ -1,10 +1,11 @@
 class Buyer < ActiveRecord::Base
-  attr_accessible :city, :fistName, :phoneNumber, :postalCode, :secondName, :street
+#  attr_accessible :city, :fistName, :phoneNumber, :postalCode, :secondName, :street
+  attr_protected :id
 
   has_many :orders
 
   def hasAccount?
-    hasAccount == 't' ? true : false
+    hasAccount
   end
 
   #ta metode koniecznie trzeba poprawic!!!!!!

@@ -13,8 +13,17 @@
 
 ActiveRecord::Schema.define(:version => 20121016232526) do
 
-# Could not dump table "buyers" because of following StandardError
-#   Unknown type 'bool' for column 'hasAccount'
+  create_table "buyers", :force => true do |t|
+    t.string   "secondName"
+    t.string   "city"
+    t.string   "street"
+    t.string   "postalCode"
+    t.string   "phoneNumber"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.string   "firstName"
+    t.boolean  "hasAccount",  :default => false
+  end
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -31,8 +40,15 @@ ActiveRecord::Schema.define(:version => 20121016232526) do
     t.integer  "product_id"
   end
 
-# Could not dump table "orders" because of following StandardError
-#   Unknown type 'bool' for column 'current'
+  create_table "orders", :force => true do |t|
+    t.datetime "date"
+    t.string   "status"
+    t.integer  "totalPrice"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "current",    :default => false
+    t.integer  "buyer_id"
+  end
 
   create_table "products", :force => true do |t|
     t.datetime "created_at",  :null => false

@@ -3,10 +3,10 @@
 <center>
 
 <% if @buyer.hasAccount? == true %>
-Witaj <%= @buyer.firstName %>!<br>
+	Witaj <%= @buyer.firstName %>!<br>
 <% else %>
-Nie masz jeszcze konta w moim sklepie!<br>
-Twoje id to: <%= @buyer.id %> <br>
+	Nie masz jeszcze konta w moim sklepie!<br>
+	Twoje id to: <%= @buyer.id %> <br>
 <% end %>
 
 <% if @order.empty? == true %>
@@ -25,7 +25,7 @@ Twoje id to: <%= @buyer.id %> <br>
 		<% @order.order_items.each do |item| %>
 			<tr align="center">
 				<td><%= item.product.author %></td>
-				<td><%= item.product.title %></td>
+				<td><%= link_to item.product.title, item.product%></td>
 				<td><%= item.quantity %></td>
 				<td><%= item.product.price%></td>		
 				<td><%= item.priceForAll%></td>
@@ -36,7 +36,10 @@ Twoje id to: <%= @buyer.id %> <br>
 
 <% end %>
 
-Koszyk utworzono: <%= @order.created_at %>
-center
+Koszyk utworzono: <%= @order.created_at %> <br>
 
-</>
+<% if @order.empty? == false %>
+	<%= link_to "Potwierdz zamówienie!", "/confirmOrder/"+@order.id.to_s, class: "btn btn-large btn-primary" %>
+<% end %> 
+
+<center/>

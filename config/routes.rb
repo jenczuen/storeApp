@@ -7,4 +7,5 @@ StoreApp::Application.routes.draw do
   match "/cart" => "buyers#cart"
   match "/addOrderItem/:id" => "orders#addOrderItem"
   match "/removeOrderItem/:id" => "orders#removeOrderItem"  
+  match "/confirmOrder/:id" => 'buyers#confirmOrder'
 end

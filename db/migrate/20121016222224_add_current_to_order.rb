@@ -1,5 +1,5 @@
 class AddCurrentToOrder < ActiveRecord::Migration
   def change
-    add_column :orders, :current, :bool, :default => false
+    add_column :orders, :current, :boolean, :default => false
   end
 end

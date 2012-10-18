@@ -1,5 +1,5 @@
 class AddHasAccountToBuyers < ActiveRecord::Migration
   def change
-    add_column :buyers, :hasAccount, :bool, :default => false
+    add_column :buyers, :hasAccount, :boolean, :default => false
   end
 end
