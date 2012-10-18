@@ -2,6 +2,7 @@
 <% if current_buyer.hasAccount? %>
 	<%= current_buyer.firstName %>, Twoje zamówienie zostało potwierdzone! <br>
 	Id zamowienia <%= @order.id %> <br>
+	<%= link_to "Home", root_path, class: "btn btn-large btn-primary" %>
 <% else %>
 	<%= current_buyer.hasAccount? %> <br>
 	Nie masz konta, podaj dane do zamówienia: <br>
