@@ -8,6 +8,7 @@ class OrdersController < ApplicationController
 		items.each do |item|
 			if item.product.id == product_id
 				item.quantity += 1
+				item.priceForAll += item.product.price
 				item.save
 				redirect_to "/cart" 
 				return
@@ -16,9 +17,16 @@ class OrdersController < ApplicationController
 		#jezeli nie, dodajemy taki item do orderu
 		item = order.order_items.create(:quantity => 1)
 		#dodajemy produkt do itema
-		
+		item.product_id = product_id
+		item.save
+		item.priceForAll = item.product.price
+		item.save
 		#:product_id => product_id
 		#przechodzimy do koszyka
 		redirect_to "/cart"
+	end
+
+	def removeOrderItem
+		item = OrderItem.find(params[:id])
 	end
 end

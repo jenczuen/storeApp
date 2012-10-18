@@ -28,8 +28,8 @@ Twoje id to: <%= @buyer.id %> <br>
 				<td><%= item.product.title %></td>
 				<td><%= item.quantity %></td>
 				<td><%= item.product.price%></td>		
-				<td><%= item.quantity*item.product.price%></td>
-				<td><%= link_to "usun z koszyka", "#"%></td>
+				<td><%= item.priceForAll%></td>
+				<td><%= link_to "usun z koszyka", "/removeOrderItem/"+item.id.to_s %></td>
 			</tr>
 		<% end %>
 	</table>
