@@ -5,4 +5,5 @@ StoreApp::Application.routes.draw do
   resources :orders
   resources :buyers  
   match "/cart" => "buyers#cart"
+  match "/addOrderItem/:id" => "orders#addOrderItem"
 end

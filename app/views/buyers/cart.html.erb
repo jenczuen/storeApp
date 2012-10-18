@@ -6,15 +6,37 @@
 Witaj <%= @buyer.firstName %>!<br>
 <% else %>
 Nie masz jeszcze konta w moim sklepie!<br>
+Twoje id to: <%= @buyer.id %> <br>
 <% end %>
 
 <% if @order.empty? == true %>
-Twój koszyk jest pusty! <br>
+	Twój koszyk jest pusty! <br>
 <% else %>
-Lista rzeczy w Twoim koszyku: <br>
+	Lista rzeczy w Twoim koszyku: <br>
+
+	<table border="1" cellpadding="6">
+		<tr align="center">
+			<td>Autor</td>
+			<td>Tytuł</td>
+			<td>Ilość</td>
+			<td>cena za sztuke</td>
+			<td>cena w sumie</td>
+		</tr>
+		<% @order.order_items.each do |item| %>
+			<tr align="center">
+				<td><%= item.product.author %></td>
+				<td><%= item.product.title %></td>
+				<td><%= item.quantity %></td>
+				<td><%= item.product.price%></td>		
+				<td><%= item.quantity*item.product.price%></td>
+				<td><%= link_to "usun z koszyka", "#"%></td>
+			</tr>
+		<% end %>
+	</table>
+
 <% end %>
 
 Koszyk utworzono: <%= @order.created_at %>
+center
 
-
-</center>
+</>
