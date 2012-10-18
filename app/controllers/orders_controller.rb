@@ -27,6 +27,18 @@ class OrdersController < ApplicationController
 	end
 
 	def removeOrderItem
-		item = OrderItem.find(params[:id])
+		begin
+			item = OrderItem.find(params[:id])
+			if item.quantity > 1
+				item.quantity -= 1
+				item.priceForAll -= item.product.price
+				item.save
+			else 
+				item.delete
+			end
+			redirect_to "/cart"	
+		rescue
+			redirect_to root_path
+		end
 	end
 end
