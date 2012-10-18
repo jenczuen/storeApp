@@ -1,5 +1,5 @@
 class AddFirstNameToBuyers < ActiveRecord::Migration
   def change
-    add_column :buyers, :firstName, :String
+    add_column :buyers, :firstName, :string
   end
 end
