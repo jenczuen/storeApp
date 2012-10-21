@@ -1,0 +1,42 @@
+<h1> Szczegoly zamowienia </h1>
+
+<center>
+
+Status zamowienia: <%= @order.status %> <br>
+Id kupujacego: <%= @order.buyer_id %> <br>
+<% if @order.status == "confirmed" %>
+	Imie kupujacego: <%= @order.buyer.firstName %> <br>
+	Nazwisko kupujacego: <%= @order.buyer.secondName %> <br>
+	Ulica: <%= @order.buyer.street %> <br>
+	Miasto: <%= @order.buyer.city %> <br>
+<% end %>
+
+
+<% if @items != [] %>
+	<table border="1" cellpadding="6">
+		<tr align="center">
+			<td>Autor</td>
+			<td>Tytuł</td>
+			<td>Ilość</td>
+			<td>cena za sztuke</td>
+			<td>cena w sumie</td>
+		</tr>
+		<% @items.each do |item| %>
+			<% if item.product != nil %>
+				<tr align="center">
+					<td><%= item.product.author %></td>
+					<td><%= link_to item.product.title, item.product%></td>
+					<td><%= item.quantity %></td>
+					<td><%= item.product.price%></td>		
+					<td><%= item.priceForAll%></td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+<% else %>
+	Zamówienie jest puste <br>
+<% end %>
+
+<%= link_to "Powrot do zamowien", admin_orders_path %>
+
+</center>

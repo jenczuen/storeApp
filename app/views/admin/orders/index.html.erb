@@ -1,1 +1,21 @@
 <h1> Lista zamówień </h1>
+
+<center>
+
+	<table border="1" cellpadding="6">
+		<tr align="center">
+			<td>Ostation edytowany</td>
+			<td>Status</td>
+			<td>Id kupujacego</td>
+		</tr>
+		<% @orders.each do |order| %>
+			<tr align="center">
+				<td><%= order.updated_at %></td>
+				<td><%= order.status %></td>
+				<td><%= order.buyer_id %></td>				
+				<td><%= link_to "szczegoly zamówienia", admin_order_path(order)%></td>
+			</tr>
+		<% end %>
+	</table>
+
+</center>
