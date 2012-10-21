@@ -1,0 +1,14 @@
+<h1> Edycja produktów </h1>
+
+<center>
+<%=link_to "dodaj produkt", new_admin_product_path %>
+<% @products.each do |p| %>
+	<li>
+		<%= p.author%>,
+		<%=link_to p.author, product_path(p) %> -  
+		<%=link_to "edytuj produkt", admin_product_path(p)%> /
+		<%=link_to "usun produkt",  admin_product_path(p), :method => :delete  %>	
+	</li>
+<% end %>
+<%= link_to "Powrót do strony głównej panelu", admin_root_path %>
+</center>

@@ -1,0 +1,8 @@
+<h1> Dodaj Kategorię </h1>
+
+<center>
+<%= form_for [:admin, @category]  do |f| %>
+  <%= f.text_field :name %>
+  <%= f.submit "Dodaj" %>
+<% end %>
+</center>

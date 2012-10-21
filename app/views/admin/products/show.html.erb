@@ -1,0 +1,42 @@
+<h1> Edycja produku <%=@product.author%></h1>
+<center>
+<%=link_to "Zmień nazwę", "#"%> <br>
+</center>
+
+<h2> 
+	<% if @product.category != nil %>
+		Produkt jest w kategorii <%=@product.category.name%> 
+	<% else %>
+		Produkt nie jest w żadnej kategorii
+	<% end %>	
+</h2>
+
+<center>
+<%= form_for [:admin, @product] do |f| %>
+	<%= f.hidden_field :from, :value => :product %>	
+	<%= f.hidden_field :category_id, :value => @category_id %>
+	<%= f.hidden_field :new_category_id, :value => 0 %>	
+	<%= f.hidden_field :product_id, :value => @product.id %><br>
+	<%= f.submit "Usun z kategorii"%>	
+<%end%>   			
+</center>
+
+<h2> Wszystkie kategorie </h2>
+<center>
+<% @categories.each do |c| %>
+	<li> 
+		<% if c.id != @category_id%>		
+			<%= c.name %>, 
+			<%=form_for [:admin, @product] do |f| %>
+				<%= f.hidden_field :from, :value => :product %>				
+				<%= f.hidden_field :category_id, :value => @category_id %>
+				<%= f.hidden_field :new_category_id, :value => c.id %>	
+				<%= f.hidden_field :product_id, :value => @product.id %><br>
+		   		<%= f.submit "Dodaj produkt do tej kategorii"%>	
+			<%end%>
+		<% end%>
+	</li>
+<% end %>
+<%= link_to "Powrót do edycji produktow", admin_products_path %>
+</center>
+
