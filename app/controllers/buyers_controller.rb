@@ -27,7 +27,7 @@ class BuyersController < ApplicationController
 			@buyer.save
 			redirect_to '/confirmOrder/'+params[:buyer][:order_id].to_s
 		rescue
-			redirect_to '/cart'
+			redirect_to cart_path
 		end
 	end
 end

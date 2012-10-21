@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.7'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
+gem 'devise'
 
 group :development do
   gem 'sqlite3', '1.3.5'
