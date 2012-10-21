@@ -30,7 +30,13 @@ class Admin::CategoriesController < Admin::AdminController
 	end
 
 	def destroy
-		Category.destroy(params[:id])
+		category = Category.find(params[:id])
+		products = category.products
+		category.destroy
+		products.each do |p|
+			p.category_id = 0
+			p.save
+		end
 		redirect_to admin_categories_path
 	end
 end

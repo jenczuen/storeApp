@@ -1,9 +1,9 @@
 <header class="navbar navbar-fixed-top">
 	<%= link_to "Home", root_path %>
 	
-	<% if admin_signed_in? %>
+	<% if admin_admin_signed_in? %>
 		<%= link_to "Panel Administratora",  admin_root_path%>
-		<%= link_to "Wyloguj", "/admins/sign_out", :method => :delete %>		
+		<%= link_to "Wyloguj", destroy_admin_admin_session_path, :method => :delete %>		
 	<% else %>
 		<% order_items = current_buyer.current_order.order_items %>
 		<% if order_items != [] %>
@@ -27,7 +27,7 @@
 
 		<% end %>
 		<%= link_to "Koszyk", "/cart" %>
-		<%= link_to "Zaloguj", "/admins/sign_in" %>
+		<%= link_to "Zaloguj", new_admin_admin_session_path %>
 	<% end %>
 
 </header>

@@ -1,5 +1,5 @@
 class Admin::AdminController < ApplicationController
-	before_filter :authenticate_admin!
+	before_filter :authenticate_admin_admin!
 
 	def index
 			

@@ -70,7 +70,7 @@ class Admin::ProductsController < Admin::AdminController
 
 	def destroy
 		Product.destroy(params[:id])
-		redirect_to admin_product_path
+		redirect_to admin_products_path
 	end
 
 end
