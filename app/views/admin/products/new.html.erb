@@ -1,8 +1,13 @@
-<h1> Dodaj Kategorię </h1>
+<h1> Dodaj Produkt </h1>
 
 <center>
-<%= form_for [:admin, @category]  do |f| %>
-  <%= f.text_field :name %>
+<%= form_for [:admin, @product]  do |f| %>
+  <%= f.label "Autor" %>
+  <%= f.text_field :author %>
+  <%= f.label "Tytul" %>  
+  <%= f.text_field :title %>
+  <%= f.label "Cena" %>  
+  <%= f.text_field :price %> <br>   
   <%= f.submit "Dodaj" %>
 <% end %>
 </center>

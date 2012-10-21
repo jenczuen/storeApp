@@ -19,9 +19,14 @@ class Admin::CategoriesController < Admin::AdminController
 	end
 
 	def update
+		@category = Category.find(params[:id])
+		@category.name = params[:category][:name]
+		@category.save
+		redirect_to admin_categories_path(params[:id])
 	end
 
 	def edit
+		@category = Category.find(params[:id])
 	end
 
 	def destroy

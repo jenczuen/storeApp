@@ -1,0 +1,7 @@
+<h1> Bieżąca nazwa kategorii <%=@category.name%></h1>
+<center>
+	<%= form_for [:admin, @category] do |f| %>
+		<%= f.text_field :name %>
+		<%= f.submit "Zmien" %>
+	<% end %>
+</center>

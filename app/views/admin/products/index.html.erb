@@ -5,7 +5,7 @@
 <% @products.each do |p| %>
 	<li>
 		<%= p.author%>,
-		<%=link_to p.author, product_path(p) %> -  
+		<%=link_to p.title, product_path(p) %> -  
 		<%=link_to "edytuj produkt", admin_product_path(p)%> /
 		<%=link_to "usun produkt",  admin_product_path(p), :method => :delete  %>	
 	</li>

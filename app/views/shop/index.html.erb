@@ -8,7 +8,13 @@ sklep internetowy <br>
 <center>
 <% @products.each do |product| %>
 	<li>
-		<%= product.author %> <%= link_to product.title, product %>
+		<%= product.author %>, 
+		<%= link_to product.title, product %>, 
+		<% if product.category == nil %>
+			brak kategorii
+		<% else %>
+			<%= link_to product.category.name, product.category %>
+		<% end %>	
 	</li>
 <% end %>
 </center>
