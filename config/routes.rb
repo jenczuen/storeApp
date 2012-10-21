@@ -1,5 +1,5 @@
 StoreApp::Application.routes.draw do
-  devise_for :admins
+#  devise_for :admins
 
   root :to => "shop#index"
   resources :products
@@ -12,6 +12,7 @@ StoreApp::Application.routes.draw do
   match "/confirmOrder/:id" => 'buyers#confirmOrder'
 
   namespace :admin do
+    devise_for :admin
     resources :categories
     resources :products
     resources :orders        
