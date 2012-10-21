@@ -1,0 +1,13 @@
+<h1> Edycja kategorii </h1>
+
+<center>
+<%=link_to "dodaj kategorie", new_admin_category_path %>
+<% @categories.each do |c| %>
+	<li> 
+		<%=link_to c.name, category_path(c) %> -  
+		<%=link_to "edytuj kategorię", admin_category_path(c)%> /
+		<%=link_to "usun kategorię",  admin_category_path(c), :method => :delete  %>	
+	</li>
+<% end %>
+<%= link_to "Powrót do strony głównej panelu", admin_root_path %>
+</center>
