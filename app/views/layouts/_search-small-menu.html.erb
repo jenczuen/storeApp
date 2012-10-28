@@ -1,6 +1,22 @@
 
-siema <br>
-salkjfasfkjasfj <br>
-aljf;asdkjf;lskdjf <br>
-;aljf;alkjsf;lajf <br>
-;asfdj;asdfj;lkjsdf <br>
+<div class="search-small-menu">
+
+	<h3>Search</h3>
+
+	<%= search_form_for search_object, url: search_products_path, method: :post do |f| %>
+		<%= f.label :title_cont, "Title contains:" %>
+		<%= f.text_field :title_cont, style: "width:130px" %>
+	
+		<%= f.label :author_cont, "Author contains:" %>
+		<%= f.text_field :author_cont, style: "width:130px" %>
+	
+		<%= f.label :price_gteq, "Price between:" %>
+		<%= f.text_field :price_gteq, style: "width:130px" %>
+	
+		<%= f.label :price_lteq, "and:" %>
+		<%= f.text_field :price_lteq, style: "width:130px" %>
+	
+		<%= f.submit "Search", class: "btn btn-mini btn-primary" %>
+	<% end %>	
+
+</div>

@@ -1,0 +1,14 @@
+<h2> Wyniki wyszukiwania: </h2>
+<center>
+<% @search_result.each do |product| %>
+	<li>
+		<%= product.author %>, 
+		<%= link_to product.title, product %>, 
+		<% if product.category == nil %>
+			brak kategorii
+		<% else %>
+			<%= link_to product.category.name, product.category %>
+		<% end %>	
+	</li>
+<% end %>
+</center>

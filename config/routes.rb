@@ -2,7 +2,10 @@ StoreApp::Application.routes.draw do
 #  devise_for :admins
 
   root :to => "shop#index"
-  resources :products
+  resources :products do
+    collection { post :search, to: 'products#index' }
+  end    
+
   resources :categories
   resources :orders
   resources :buyers  

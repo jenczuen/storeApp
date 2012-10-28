@@ -1,4 +1,5 @@
 <div class="cart-small">
+	<h4>Aktualna zawartość koszyka:</h4>
 	<% order_items = current_buyer.current_order.order_items %>
 	<% if order_items != [] %>
 		<table border="1" cellpadding="6">
@@ -16,4 +17,5 @@
 			<% end %>
 		</table>
 	<% end %>
+	<%= link_to "Przejdz do koszyka", "/cart" %>
 </div>

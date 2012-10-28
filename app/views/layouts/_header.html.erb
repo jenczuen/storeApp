@@ -8,11 +8,10 @@
 				<ul class="nav pull-right">
 
 					<% if admin_admin_signed_in? %>
-						<%= link_to "Panel Administratora",  admin_root_path%>
-						<%= link_to "Wyloguj", destroy_admin_admin_session_path, :method => :delete %>
+						<li><%= link_to "Panel Administratora",  admin_root_path%></li>
+						<li><%= link_to "Wyloguj", destroy_admin_admin_session_path, :method => :delete %></li>
 					<% else %>
-						<%= link_to "Koszyk", "/cart" %>
-						<%= link_to "Zaloguj", new_admin_admin_session_path %>
+						<li><%= link_to "Zaloguj", new_admin_admin_session_path %></li>
 					<% end %>
 
 				</ul>
