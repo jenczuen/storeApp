@@ -5,6 +5,7 @@ gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'ransack'
+gem 'faker'
 
 group :development do
   gem 'sqlite3', '1.3.5'
