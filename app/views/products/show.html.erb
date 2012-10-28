@@ -1,10 +1,11 @@
 <h1><%= @product.author %></h1>
-<h2>Title: <%= @product.title %></h2>
+<h2>Tytuł: <%= @product.title %></h2>
 
 <center>
-	Price: <%= @product.price %>$ <br>
+	Cena: <%= @product.price %>$ <br>
+	Opis: <%= @product.description %><br>
 	<%= link_to "Dodaj produkt do koszyka!", "/addOrderItem/"+@product.id.to_s %> <br>
 	<% if @product.category_id != 0 %>
-		<%= link_to "Back to "+@product.category.name, @product.category %> 
+		<%= link_to "Powrót do "+@product.category.name, @product.category %> 
 	<% end %>
 </center>

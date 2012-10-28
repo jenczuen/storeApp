@@ -9,9 +9,10 @@ namespace :db do
     categories.each do |c|
       100.times do 
         p = Product.new
-        p.author = Faker::Name::name
-        p.title = Faker::Lorem::sentence
+        p.author = Faker::Name.name
+        p.title = Faker::Lorem.sentence
         p.price = rand(50) + 10
+        p.description = Faker::Lorem.paragraph
         p.category = c
         p.save
       end
