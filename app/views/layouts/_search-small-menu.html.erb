@@ -4,7 +4,7 @@
 	<h3>Szukaj:</h3>
 
 	<%= search_form_for search_object, url: search_products_path, method: :post do |f| %>
-		<%= f.label :title_cont, "Tytuł:" %>
+		<%= f.label :title_cont, "Tytuł: " %>
 		<%= f.text_field :title_cont, style: "width:130px" %>
 	
 		<%= f.label :author_cont, "Opis:" %>
