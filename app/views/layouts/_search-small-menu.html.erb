@@ -4,19 +4,19 @@
 	<h3>Search</h3>
 
 	<%= search_form_for search_object, url: search_products_path, method: :post do |f| %>
-		<%= f.label :title_cont, "Title contains:" %>
+		<%= f.label :title_cont, "Tytul:" %>
 		<%= f.text_field :title_cont, style: "width:130px" %>
 	
-		<%= f.label :author_cont, "Author contains:" %>
+		<%= f.label :author_cont, "Autor:" %>
 		<%= f.text_field :author_cont, style: "width:130px" %>
 	
-		<%= f.label :price_gteq, "Price between:" %>
+		<%= f.label :price_gteq, "Cena od:" %>
 		<%= f.text_field :price_gteq, style: "width:130px" %>
 	
-		<%= f.label :price_lteq, "and:" %>
+		<%= f.label :price_lteq, "do:" %>
 		<%= f.text_field :price_lteq, style: "width:130px" %>
 		<br>	
-		<%= f.submit "Search", class: "btn btn-mini btn-primary" %>
+		<%= f.submit "Szukaj", class: "btn btn-mini btn-primary" %>
 	<% end %>	
 
 </div>
