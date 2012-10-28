@@ -7,10 +7,24 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<%= render 'layouts/header' %>
 
-	<%= yield %>
+	<%= render 'layouts/header' %>	
 
+	<div class="container-fluid">
+		<div class="row-fluid">
+
+			<div class="span2">			
+				<%= render 'layouts/search-small-menu' %>
+				<%= render 'layouts/cart-small' %>
+			</div>
+
+			<div class="span10">
+				<%= yield %>
+			</div>
+
+	</div>
+	
 	<%= render 'layouts/footer' %>
+
 </body>
 </html>

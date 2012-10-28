@@ -1,43 +1,23 @@
 <header class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">	
-			<nav>
 
-				<%= link_to "Home", root_path, id: "logo" %>
-				
+		<%= link_to "Home", root_path, id: "logo" %>
+
+			<nav>				
 				<ul class="nav pull-right">
 
 					<% if admin_admin_signed_in? %>
 						<%= link_to "Panel Administratora",  admin_root_path%>
 						<%= link_to "Wyloguj", destroy_admin_admin_session_path, :method => :delete %>
 					<% else %>
-						<% order_items = current_buyer.current_order.order_items %>
-						<% if order_items != [] %>
-
-							<table border="1" cellpadding="6">
-								<tr align="center">
-									<td>Autor</td>
-									<td>Tytuł</td>
-									<td>Ilość</td>
-									<td>cena w sumie</td>
-								</tr>
-								<% order_items.each do |item| %>
-									<tr align="center">
-										<td><%= item.product.author %></td>
-										<td><%= link_to item.product.title, item.product%></td>
-										<td><%= item.quantity %></td>
-										<td><%= item.priceForAll%></td>
-									</tr>
-								<% end %>
-							</table>
-
-						<% end %>
 						<%= link_to "Koszyk", "/cart" %>
 						<%= link_to "Zaloguj", new_admin_admin_session_path %>
 					<% end %>
 
 				</ul>
 			</nav>
+
 		</div>
 	</div>
 </header>

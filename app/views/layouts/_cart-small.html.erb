@@ -1,0 +1,19 @@
+<div class="cart-small">
+	<% order_items = current_buyer.current_order.order_items %>
+	<% if order_items != [] %>
+		<table border="1" cellpadding="6">
+			<tr align="center">
+				<td>Autor</td>
+				<td>Tytuł</td>
+				<td>Ilość</td>
+			</tr>
+			<% order_items.each do |item| %>
+				<tr align="center">
+					<td><%= item.product.author %></td>
+					<td><%= link_to item.product.title, item.product%></td>
+					<td><%= item.quantity %></td>
+				</tr>
+			<% end %>
+		</table>
+	<% end %>
+</div>
