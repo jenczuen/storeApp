@@ -40,10 +40,10 @@ Koszyk utworzono: <%= @order.created_at %> <br> <br>
 
 
 <% if @order.empty? == false %>
-	<%= link_to "Kontynuuj zakupy...", @order.order_items.last.product.category , class: "btn btn-large btn-primary" %>
+	<%= link_to "Kontynuuj zakupy.", @order.order_items.last.product.category , class: "btn btn-large btn-primary" %>
 	<%= link_to "Potwierdz zamówienie!", "/confirmOrder/"+@order.id.to_s, class: "btn btn-large btn-primary" %>
 <% else %> 
-	<%= link_to "Kontynuuj zakupy...", categories_path, class: "btn btn-large btn-primary" %>
+	<%= link_to "Kontynuuj zakupy.", categories_path, class: "btn btn-large btn-primary" %>
 <% end %> 
 
 <center/>
