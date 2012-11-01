@@ -1,7 +1,9 @@
 StoreApp::Application.routes.draw do
 #  devise_for :admins
 
-  root :to => "shop#index"
+#  root :to => "shop#index"
+  root :to => "store#index"
+
   resources :products do
     collection { post :search, to: 'products#index' }
   end    
@@ -21,4 +23,8 @@ StoreApp::Application.routes.draw do
     resources :orders        
     root :to => "admin#index"
   end
+
+  #SAP version:
+  resources :store
+
 end
