@@ -12,7 +12,7 @@ namespace :db do
         p.author = Faker::Name.name
         p.title = Faker::Lorem.sentence
         p.price = rand(50) + 10
-        p.description = Faker::Lorem.paragraph
+        p.description = Faker::Lorem.sentence
         p.category = c
         p.save
       end
