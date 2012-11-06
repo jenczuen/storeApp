@@ -5,4 +5,6 @@ class UseCase
 	setAllProducts: (products) =>
 		@currentProducts = products
 
-	showAllProducts: =>
+	getAllProducts: =>
+		return @currentProducts
+

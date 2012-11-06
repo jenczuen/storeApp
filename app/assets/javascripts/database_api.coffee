@@ -1,8 +1,3 @@
 class DatabaseApi
-	getAllProducts: => 
-		return [
-					{item: 1}
-					{item: 2}
-					{item: 3}										
-					{item: 4}
-				]
+	getAllProducts: ->
+		return [1,2,3,4,5,5]

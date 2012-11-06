@@ -13,5 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-
-//= require_tree . 
+//= require underscore
+//= require YouAreDaBomb
+//= require utils
+//= require handlebars-1.0.0.beta.6
+//= require sugar-1.3.min
+//= require_tree .
