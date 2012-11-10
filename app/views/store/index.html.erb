@@ -1,8 +1,17 @@
-<div class="all-products-list"></div>
+<ul id="products-list"></ul>
 
-<script id="all-products-template" type="text/x-handlebars-template">
+<script type="x-handlebars-template" id="products-template">
+   	<li>
+   		<label>{{ author }}</label>
+   		{{ title }]
+	</li>
+</script>
 
-	<h1> Lista wszystkich produktow: </h1>
-    {{#list tasks}} {{item}} {{/list}}
+
+<div class="hello"></div>
+
+<script id="some-template" type="text/x-handlebars-template">
+
+    <h1> Witaj {{name}}! </h1>
 
 </script>
