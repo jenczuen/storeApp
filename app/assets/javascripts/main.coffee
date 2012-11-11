@@ -3,16 +3,16 @@ class DatabaseApi
 
 	getProducts: =>
 		[
-			new Product("Pezet","Supergirl",10,1), 
-			new Product("Gural","Zlota plyta",10,1),
-			new Product("Figo Fagot","costam",10,2), 
-			new Product("Bajerful","the best",10,2)
+			new Product("Pezet","Supergirl",10,1,1), 
+			new Product("Gural","Zlota plyta",10,1,2),
+			new Product("Figo Fagot","costam",10,2,3), 
+			new Product("Bajerful","the best",10,2,4)
 		]
 
 	getCategories: =>  
 		[
 			new Category("HipHop",1), 
-			new Category("Dicso Polo",2)
+			new Category("Disco Polo",2)
 		]
 
 	flush: =>
@@ -22,6 +22,8 @@ class NavigationUseCases
 	constructor: ->
 		@allProducts = []
 		@currentProducts = []
+		@currentProduct = null
+		@currentProductsCategory = null
 		@currentCategory = null
 		@allCategories = []
 
@@ -32,22 +34,18 @@ class NavigationUseCases
 		@allCategories = categories
 
 	getProductsByCategory: (category_id) => 
-#		@currentCategory = new Category("HipHop",1)
-#		@currentCategory = new Category("Dicso Polo",2)
 		@currentCategory = @allCategories.find((category) -> category.id == category_id)
 		@currentProducts = @allProducts.filter (product) -> product.category_id == category_id
-
-	showProductsByCategory: =>		
 
 	showAllProducts: =>
 	showAllCategories: =>	
 
-	showProduct: (product) =>
-	showCategory: (category) =>
+	showProduct: (product_id) =>
+		@currentProduct = @allProducts.find((product) -> product.id == product_id)
 
 
 class Product
-	constructor: (@author, @title, @price, @category_id) ->
+	constructor: (@author, @title, @price, @category_id, @id) ->
 
 
 class Category
@@ -77,9 +75,27 @@ class Gui
 		source = $("#items-template").html()
 		template = Handlebars.compile(source)
 		for product in products
-			data = {product:true, author: product.author, title: product.title}
+			data = {
+					product:true, 
+					author: product.author, 
+					title: product.title
+					id: product.id
+					function_name: "useCase.showProduct("+product.id+")"
+				}
 			html = template(data)
 			$("#items-list").append(html)
+
+	showProduct: (product) =>
+		$("#product-view").html("")
+		source = $("#product-template").html()
+		template = Handlebars.compile(source)
+		data = {
+				author: product.author, 
+				title: product.title, 
+				price: product.price
+			}
+		html = template(data)
+		$("#product-view").append(html)
 
 	showCategories: (categories) =>
 		@setButton("Strona glowna","useCase.showAllProducts()")		
@@ -110,6 +126,8 @@ class Glue
 
 		After(@useCase, 'getProductsByCategory', => @gui.setHeader(@useCase.currentCategory.name))
 		After(@useCase, 'getProductsByCategory', => @gui.showProducts(@useCase.currentProducts))
+
+		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct))
 
 
 class Main

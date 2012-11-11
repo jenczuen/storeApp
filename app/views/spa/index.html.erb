@@ -1,3 +1,4 @@
+<div id="product-view"></div>
 <div id="button"></div>
 <h1 id="main-header"></h1> 
 <ul id="items-list"></ul>
@@ -9,7 +10,9 @@
 <script type="x-handlebars-template" id="items-template">
 	<li>
 		{{#if product }}
-			<label>{{ author }}</label> {{ title }}	
+			<button type="button" onclick={{ function_name }}>
+				{{ author }}, {{ title }}, {{ id }}
+			</button>
 		{{/if}}
 		{{#if category }}
 			<button type="button" onclick={{ function_name }}>{{ name }}</button>
@@ -19,4 +22,10 @@
 
 <script type="x-handlebars-template" id="button-template">
 	<button type="button" onclick={{ function_name }}>{{ content }}</button>
+</script>
+
+<script type="x-handlebars-template" id="product-template">
+	Autor: {{ author }} <br>
+	Tytul: {{ title }} <br>
+	Cena: {{ price }} <br>
 </script>
