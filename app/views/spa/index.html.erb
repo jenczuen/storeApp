@@ -1,19 +1,22 @@
+<div id="button"></div>
 <h1 id="main-header"></h1> 
-<ul id="products-list"></ul>
-<ul id="categories-list"></ul>
+<ul id="items-list"></ul>
 
 <script type="x-handlebars-template" id="header-template">
 	{{ content }}
 </script>
 
-<script type="x-handlebars-template" id="products-template">
+<script type="x-handlebars-template" id="items-template">
 	<li>
-	   	<label>{{ author }}</label> {{ title }}	
-   	</li>
+		{{#if product }}
+			<label>{{ author }}</label> {{ title }}	
+		{{/if}}
+		{{#if category }}
+			<button type="button" onclick={{ function_name }}>{{ name }}</button>
+		{{/if}}
+	</li>
 </script>
 
-<script type="x-handlebars-template" id="categories-template">
-	<li>
-	   	<label>{{ name }}</label>
-   	</li>
+<script type="x-handlebars-template" id="button-template">
+	<button type="button" onclick={{ function_name }}>{{ content }}</button>
 </script>
