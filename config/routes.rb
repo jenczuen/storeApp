@@ -25,6 +25,7 @@ StoreApp::Application.routes.draw do
   end
 
   #SPA version:
+  match "/spa/getProducts" => "spa#getProducts", :via => :get
   resources :spa
 
 end

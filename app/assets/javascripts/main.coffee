@@ -1,8 +1,29 @@
 class DatabaseApi
-	constructor: (@namespace) ->
-
 	getProducts: =>
+
+#		$.getJSON("/spa/getProducts.json", (data) -> alert(data))
+#		$.getJSON "/spa/getProducts.json", (data) -> alert(data)
+#		constructor: (@author, @title, @price, @category_id, @id) ->
+		container =
+			data: null
+			product: null
+
+		product = $.getJSON "/spa/getProducts.json", (data, product) ->
+			container.data = data
+
+		alert container.data.author
+		###
+		product = new Product(
+								data.author,
+								data.title,
+								data.price,
+								data.category_id,
+								data.id
+							)
+		###
+
 		[
+#			product,
 			new Product("Pezet","Supergirl",10,1,1), 
 			new Product("Gural","Zlota plyta",10,1,2),
 			new Product("Figo Fagot","costam",10,2,3), 
