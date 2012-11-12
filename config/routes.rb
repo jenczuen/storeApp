@@ -27,6 +27,7 @@ StoreApp::Application.routes.draw do
   #SPA version:
   match "/spa/getProducts" => "spa#getProducts", :via => :get
   match "/spa/getCategories" => "spa#getCategories", :via => :get  
+  match "/spa/echo" => "spa#echo", :via => :post  
   resources :spa
 
 end

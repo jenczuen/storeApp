@@ -17,4 +17,13 @@ class SpaController < ApplicationController
 		end
 	end
 
+	def echo
+		p = Product.new()
+		p.author = params[:sample]
+#		p.save
+		respond_to do |format|
+			format.json { render :json => "ok" }
+		end
+	end
+
 end

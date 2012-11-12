@@ -8,6 +8,8 @@ class DatabaseApi
 		@json_data = json_data
 
 	getProducts: =>
+		@sendSampleDataViaJson()
+
 		$.ajax({
 			url: '/spa/getProducts.json',
 			async: false,
@@ -39,6 +41,15 @@ class DatabaseApi
 										item.id
 									))
 		@categories
+
+	sendSampleDataViaJson: =>
+		$.ajax({
+			type: "POST",
+			url: '/spa/echo',
+			async: false,
+			dataType: 'json',
+			data: {"sample": "data"}
+		})
 
 	flush: =>
 		@json_data = []
