@@ -1,9 +1,8 @@
 class SpaController < ApplicationController
 
 	def index
-	end
-
-	def show
+		product = Product.first()
+		@product_json = ActiveSupport::JSON.encode(product)
 	end
 
 end

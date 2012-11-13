@@ -55,6 +55,12 @@ class Gui
 	constructor: ->
 		@productElements = []
 
+	clearAll: =>
+		$("#product-view").html("")
+		$("#button").html("")
+		$("#main-header").html("")
+		$("#items-list").html("")
+
 	setHeader: (content) =>
 		source = $("#header-template").html()
 		template = Handlebars.compile(source)
@@ -128,6 +134,9 @@ class Glue
 		After(@useCase, 'getProductsByCategory', => @gui.showProducts(@useCase.currentProducts))
 
 		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct))
+
+		Before(@useCase,'showAllCategories', => @gui.clearAll())
+		Before(@useCase,'showProduct', => @gui.clearAll())		
 
 
 class Main
