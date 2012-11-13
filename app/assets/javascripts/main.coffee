@@ -68,6 +68,8 @@ class NavigationUseCases
 		@currentCategory = null
 		@allCategories = []
 
+	init: =>
+
 	setInitialProducts: (products) =>
 		@allProducts = products
 
@@ -168,8 +170,10 @@ class Gui
 class Glue
 	constructor: (@useCase, @gui, @storage)->
 		AutoBind(@gui, @useCase)
-		Before(@useCase, 'showAllProducts', => @useCase.setInitialProducts(@storage.getProducts()))
-		Before(@useCase, 'showAllProducts', => @useCase.setInitialCategories(@storage.getCategories()))
+
+		Before(@useCase, 'init', => @useCase.setInitialProducts(@storage.getProducts()))
+		Before(@useCase, 'init', => @useCase.setInitialCategories(@storage.getCategories()))
+
 		Before(@useCase, 'showAllProducts', => @gui.clearAll())
 		After(@useCase, 'showAllProducts', => @gui.showHomePage(@useCase.allProducts))		
 
@@ -180,7 +184,6 @@ class Glue
 		After(@useCase, 'showCategory', => @gui.showCategory(@useCase.currentCategory,@useCase.currentProducts))
 
 		Before(@useCase, 'showProduct', => @gui.clearAll())
-#		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct))
 		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct,@useCase.currentProductsCategory))
 
 
@@ -191,6 +194,7 @@ class Main
 		window.useCase = useCase
 		DatabaseApi = new DatabaseApi()
 		glue = new Glue(useCase, gui, DatabaseApi)
+		useCase.init()
 		useCase.showAllProducts()
 
 $(-> new Main())
