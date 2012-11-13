@@ -1,21 +1,61 @@
 class DatabaseApi
-	constructor: (@namespace) ->
+	constructor: ->
+		@json_data
+		@products
+		@categories
+	
+	saveJsonData: (json_data) ->
+		@json_data = json_data
 
 	getProducts: =>
-		[
-			new Product("Pezet","Supergirl",10,1,1), 
-			new Product("Gural","Zlota plyta",10,1,2),
-			new Product("Figo Fagot","costam",10,2,3), 
-			new Product("Bajerful","the best",10,2,4)
-		]
+#		@sendSampleDataViaJson()
+
+		$.ajax({
+			url: '/spa/getProducts.json',
+			async: false,
+			dataType: 'json',
+			success: (data, status) => @saveJsonData(data)
+		})
+		@products = []
+		for item in @json_data
+			@products.add( new Product(
+										item.author,
+										item.title,
+										item.price,
+										item.category_id,
+										item.id
+									))
+		@products
 
 	getCategories: =>  
-		[
-			new Category("HipHop",1), 
-			new Category("Disco Polo",2)
-		]
+		$.ajax({
+			url: '/spa/getCategories.json',
+			async: false,
+			dataType: 'json',
+			success: (data, status) => @saveJsonData(data)
+		})
+		@categories = []
+		for item in @json_data
+			@categories.add( new Category(
+										item.name,
+										item.id
+									))
+		@categories
+
+	sendSampleDataViaJson: =>
+		$.ajax({
+			type: "POST",
+			url: '/spa/echo',
+			async: false,
+			dataType: 'json',
+#			processData : false,
+			data: {"sample": "data"}
+		})
 
 	flush: =>
+		@json_data = []
+		@products = []
+		@categories = []
 
 
 class NavigationUseCases
@@ -50,6 +90,7 @@ class Product
 
 class Category
 	constructor: (@name, @id) ->
+
 
 class Gui
 	constructor: ->
