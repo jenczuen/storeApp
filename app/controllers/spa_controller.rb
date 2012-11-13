@@ -5,9 +5,7 @@ class SpaController < ApplicationController
 	end
 
 	def getProducts
-		all = Product.all()
-		products = []
-		(1..10).each {|i| products.push all[i]}
+		products = Product.all()
 		respond_to do |format|
 			format.json { render :json => products }
 		end

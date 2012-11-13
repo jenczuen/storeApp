@@ -76,12 +76,12 @@ class NavigationUseCases
 	setInitialCategories: (categories) =>
 		@allCategories = categories
 
+	showHomePage: =>
+	showAllCategories: =>
+
 	showCategory: (category_id) => 
 		@currentCategory = @allCategories.find((category) -> category.id == category_id)
 		@currentProducts = @allProducts.filter (product) -> product.category_id == category_id
-
-	showAllProducts: =>
-	showAllCategories: =>	
 
 	showProduct: (product_id) =>
 		@currentProduct = @allProducts.find((product) -> product.id == product_id)
@@ -152,7 +152,6 @@ class Gui
 		$("#category").html(html)
 
 	showProduct: (product, category) =>
-#	showProduct: (product) =>
 		source = $("#product-template").html()
 		template = Handlebars.compile(source)
 		data = {
@@ -174,8 +173,8 @@ class Glue
 		Before(@useCase, 'init', => @useCase.setInitialProducts(@storage.getProducts()))
 		Before(@useCase, 'init', => @useCase.setInitialCategories(@storage.getCategories()))
 
-		Before(@useCase, 'showAllProducts', => @gui.clearAll())
-		After(@useCase, 'showAllProducts', => @gui.showHomePage(@useCase.allProducts))		
+		Before(@useCase, 'showHomePage', => @gui.clearAll())
+		After(@useCase, 'showHomePage', => @gui.showHomePage(@useCase.allProducts))		
 
 		Before(@useCase, 'showAllCategories', => @gui.clearAll())
 		After(@useCase, 'showAllCategories', => @gui.showCategories(@useCase.allCategories))
@@ -195,6 +194,6 @@ class Main
 		DatabaseApi = new DatabaseApi()
 		glue = new Glue(useCase, gui, DatabaseApi)
 		useCase.init()
-		useCase.showAllProducts()
+		useCase.showHomePage()
 
 $(-> new Main())
