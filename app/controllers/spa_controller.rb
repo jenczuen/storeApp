@@ -1,12 +1,15 @@
 class SpaController < ApplicationController
+	before_filter :set_spa
 
 	def index
 	end
 
 	def getProducts
-		@products = Product.all()
+		all = Product.all()
+		products = []
+		(1..10).each {|i| products.push all[i]}
 		respond_to do |format|
-			format.json { render :json => @products }
+			format.json { render :json => products }
 		end
 	end
 

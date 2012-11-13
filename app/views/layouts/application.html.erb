@@ -8,23 +8,27 @@
 </head>
 <body>
 
-	<%= render 'layouts/header' %>	
+	<% if spa? %>
+		<%= yield %>
+	<% else %>		
+		<%= render 'layouts/header' %>	
 
-	<div class="container-fluid">
-		<div class="row-fluid">
+		<div class="container-fluid">
+			<div class="row-fluid">
 
-			<div class="span2">			
-				<%= render 'layouts/search-small-menu' %>
-				<%= render 'layouts/cart-small' %>
-			</div>
+				<div class="span2">			
+					<%= render 'layouts/search-small-menu' %>
+					<%= render 'layouts/cart-small' %>
+				</div>
 
-			<div class="span10">
-				<%= yield %>
-			</div>
+				<div class="span10">
+					<%= yield %>
+				</div>
 
-	</div>
-	
-	<%= render 'layouts/footer' %>
+		</div>
+		
+		<%= render 'layouts/footer' %>	
+	<% end %>
 
 </body>
 </html>

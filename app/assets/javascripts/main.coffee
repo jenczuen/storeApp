@@ -22,6 +22,7 @@ class DatabaseApi
 										item.author,
 										item.title,
 										item.price,
+										item.description,
 										item.category_id,
 										item.id
 									))
@@ -73,7 +74,7 @@ class NavigationUseCases
 	setInitialCategories: (categories) =>
 		@allCategories = categories
 
-	getProductsByCategory: (category_id) => 
+	showCategory: (category_id) => 
 		@currentCategory = @allCategories.find((category) -> category.id == category_id)
 		@currentProducts = @allProducts.filter (product) -> product.category_id == category_id
 
@@ -82,10 +83,14 @@ class NavigationUseCases
 
 	showProduct: (product_id) =>
 		@currentProduct = @allProducts.find((product) -> product.id == product_id)
+		@currentProductsCategory = null
+		for c in @allCategories
+			if c.id == @currentProduct.category_id
+				@currentProductsCategory = c
 
 
 class Product
-	constructor: (@author, @title, @price, @category_id, @id) ->
+	constructor: (@author, @title, @price, @description, @category_id, @id) ->
 
 
 class Category
@@ -97,66 +102,67 @@ class Gui
 		@productElements = []
 
 	clearAll: =>
-		$("#product-view").html("")
-		$("#button").html("")
-		$("#main-header").html("")
-		$("#items-list").html("")
+		$("#home-page").html("")
+		$("#categories").html("")
+		$("#category").html("")
+		$("#product").html("")
+		$("#cart-full").html("")
+		$("#confirm-order").html("")
 
-	setHeader: (content) =>
-		source = $("#header-template").html()
+	showHomePage: (products) =>
+		source = $("#home-page-template").html()
 		template = Handlebars.compile(source)
-		data = {content: content}
-		html = template(data)
-		$("#main-header").html(html)
-
-	setButton: (content, function_name) =>
-		source = $("#button-template").html()
-		template = Handlebars.compile(source)
-		data = {content: content, function_name: function_name}
-		html = template(data)
-		$("#button").html(html)	
-
-	showProducts: (products) =>
-		@setButton("Lista kategorii","useCase.showAllCategories()")	
-		$("#items-list").html("")
-		source = $("#items-template").html()
-		template = Handlebars.compile(source)
+		data = { products: [] }
 		for product in products
-			data = {
-					product:true, 
-					author: product.author, 
-					title: product.title
-					id: product.id
-					function_name: "useCase.showProduct("+product.id+")"
-				}
-			html = template(data)
-			$("#items-list").append(html)
+			data.products.push({
+									author: product.author
+									title: product.title
+									id: product.id
+									function_name: "useCase.showProduct("+product.id+")"
+								})
+		html = template(data)
+		$("#home-page").html(html)
 
-	showProduct: (product) =>
-		$("#product-view").html("")
+	showCategories: (categories) =>
+		source = $("#categories-template").html()
+		template = Handlebars.compile(source)
+		data = { categories: [] }
+		for category in categories
+			data.categories.push({
+									name: category.name
+									function_name: "useCase.showCategory("+category.id+")"
+								})
+		html = template(data)
+		$("#categories").html(html)
+
+	showCategory: (category,products) =>
+		source = $("#category-template").html()
+		template = Handlebars.compile(source)
+		data = { category: category.name, products: [] }
+		for product in products
+			data.products.push({
+									author: product.author
+									title: product.title
+									id: product.id
+									function_name: "useCase.showProduct("+product.id+")"
+								})
+		html = template(data)
+		$("#category").html(html)
+
+	showProduct: (product, category) =>
+#	showProduct: (product) =>
 		source = $("#product-template").html()
 		template = Handlebars.compile(source)
 		data = {
 				author: product.author, 
 				title: product.title, 
-				price: product.price
+				price: product.price,
+				description: product.description
+				function_name: "useCase.showCategory("+category.id+")"
+				category: category.name
 			}
 		html = template(data)
-		$("#product-view").append(html)
-
-	showCategories: (categories) =>
-		@setButton("Strona glowna","useCase.showAllProducts()")		
-		$("#items-list").html("")
-		source = $("#items-template").html()
-		template = Handlebars.compile(source)
-		for category in categories
-			data = {
-					category: true, 
-					name: category.name, 
-					function_name: "useCase.getProductsByCategory("+category.id+")"
-				}
-			html = template(data)
-			$("#items-list").append(html)
+		$("#product").html(html)
 
 
 class Glue
@@ -164,20 +170,18 @@ class Glue
 		AutoBind(@gui, @useCase)
 		Before(@useCase, 'showAllProducts', => @useCase.setInitialProducts(@storage.getProducts()))
 		Before(@useCase, 'showAllProducts', => @useCase.setInitialCategories(@storage.getCategories()))
-		After(@useCase, 'showAllProducts', => @gui.setHeader("Wszystkie Produkty"))
-		After(@useCase, 'showAllProducts', => @gui.showProducts(@useCase.allProducts))
+		Before(@useCase, 'showAllProducts', => @gui.clearAll())
+		After(@useCase, 'showAllProducts', => @gui.showHomePage(@useCase.allProducts))		
 
-		Before(@useCase, 'showAllCategories', => @useCase.setInitialCategories(@storage.getCategories()))
-		After(@useCase, 'showAllCategories', => @gui.setHeader("Wszystkie Kategorie"))
+		Before(@useCase, 'showAllCategories', => @gui.clearAll())
 		After(@useCase, 'showAllCategories', => @gui.showCategories(@useCase.allCategories))
 
-		After(@useCase, 'getProductsByCategory', => @gui.setHeader(@useCase.currentCategory.name))
-		After(@useCase, 'getProductsByCategory', => @gui.showProducts(@useCase.currentProducts))
+		Before(@useCase, 'showCategory', => @gui.clearAll())
+		After(@useCase, 'showCategory', => @gui.showCategory(@useCase.currentCategory,@useCase.currentProducts))
 
-		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct))
-
-		Before(@useCase,'showAllCategories', => @gui.clearAll())
-		Before(@useCase,'showProduct', => @gui.clearAll())		
+		Before(@useCase, 'showProduct', => @gui.clearAll())
+#		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct))
+		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct,@useCase.currentProductsCategory))
 
 
 class Main

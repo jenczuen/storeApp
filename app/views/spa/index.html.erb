@@ -1,36 +1,86 @@
-<div id="home-page"></div>
-<div id="categories"></div>
-<div id="category"></div>
-<div id="product"></div>
-<div id="cart-full"></div>
-<div id="confirm-order"></div>
+<header class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">	
+			<%= link_to_function "| Strona główna", "useCase.showAllProducts()", id: "logo" %>
+			<%= link_to_function "| Kategorie", "useCase.showAllCategories()", id: "logo" %>
+		</div>
+	</div>
+</header>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span2">			
+			<%= render 'layouts/search-small-menu' %>
+			<%= render 'layouts/cart-small' %>
+		</div>
+		<div class="span10">
+			<div id="home-page"></div>
+			<div id="categories"></div>
+			<div id="category"></div>
+			<div id="product"></div>
+			<div id="cart-full"></div>
+			<div id="confirm-order"></div>
+
+			<div id="product-view"></div>
+			<h1 id="main-header"></h1> 
+			<ul id="items-list"></ul>
+
+		</div>
+	</div>
+</div>	
+<%= render 'layouts/footer' %>	
 
 <script type="x-handlebars-template" id="home-page-template">
-	{{#if welcome }}
-		Witam w naszym sklepie bla bls
-	{{/if}}	
-	{{#if product }}
-		<button type="button" onclick={{ function_name }}>
-			{{ author }}, {{ title }}, {{ id }}
-		</button>
-	{{/if}}	
+	<h1> Welcome! </h1>	
+	<ul class="products_list">
+	{{#each products}}
+		<li>
+			{{ this.author }}
+			<a href="#" onclick={{ this.function_name }}>
+				{{ this.title }}
+			</a>
+		</li>
+	{{/each}}
+	</ul>
 </script>
 
 <script type="x-handlebars-template" id="categories-template">
 	<h1> Lista wszystkich kategorii </h1>
 	<ul class="categories_list">
-	{{#each category}}
-		<li>{{this.name}}</li>
+	{{#each categories}}
+		<li>
+			<a href="#" onclick={{ this.function_name }}>
+				{{ this.name }}
+			</a>
+		</li>
 	{{/each}}
 	</ul>
 </script>
 
 <script type="x-handlebars-template" id="category-template">
-	{{ content }}
+	<h1> {{ category }} </h1>
+	<ul class="products_list">
+	{{#each products}}
+		<li>
+			{{ this.author }}
+			<a href="#" onclick={{ this.function_name }}>
+				{{ this.title }}
+			</a>
+		</li>
+	{{/each}}
+	</ul>
 </script>
 
 <script type="x-handlebars-template" id="product-template">
-	{{ content }}
+	<h1> {{ title }} </h1>
+	<div> 
+		Author: {{ author }} <br>
+		Price: {{ price }} <br>
+		Description: {{ description }}
+	</div>
+	<a href="#" onclick={{ function_name }}>
+		Go to {{ category }}
+	</a>
 </script>
 
 <script type="x-handlebars-template" id="cart-full-template">
@@ -39,39 +89,4 @@
 
 <script type="x-handlebars-template" id="confirm-order-template">
 	{{ content }}
-</script>
-
-
-
-
-<div id="product-view"></div>
-<div id="button"></div>
-<h1 id="main-header"></h1> 
-<ul id="items-list"></ul>
-
-<script type="x-handlebars-template" id="header-template">
-	{{ content }}
-</script>
-
-<script type="x-handlebars-template" id="items-template">
-	<li>
-		{{#if product }}
-			<button type="button" onclick={{ function_name }}>
-				{{ author }}, {{ title }}, {{ id }}
-			</button>
-		{{/if}}
-		{{#if category }}
-			<button type="button" onclick={{ function_name }}>{{ name }}</button>
-		{{/if}}
-	</li>
-</script>
-
-<script type="x-handlebars-template" id="button-template">
-	<button type="button" onclick={{ function_name }}>{{ content }}</button>
-</script>
-
-<script type="x-handlebars-template" id="product-template">
-	Autor: {{ author }} <br>
-	Tytul: {{ title }} <br>
-	Cena: {{ price }} <br>
 </script>
