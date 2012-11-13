@@ -1,3 +1,48 @@
+<div id="home-page"></div>
+<div id="categories"></div>
+<div id="category"></div>
+<div id="product"></div>
+<div id="cart-full"></div>
+<div id="confirm-order"></div>
+
+<script type="x-handlebars-template" id="home-page-template">
+	{{#if welcome }}
+		Witam w naszym sklepie bla bls
+	{{/if}}	
+	{{#if product }}
+		<button type="button" onclick={{ function_name }}>
+			{{ author }}, {{ title }}, {{ id }}
+		</button>
+	{{/if}}	
+</script>
+
+<script type="x-handlebars-template" id="categories-template">
+	<h1> Lista wszystkich kategorii </h1>
+	<ul class="categories_list">
+	{{#each category}}
+		<li>{{this.name}}</li>
+	{{/each}}
+	</ul>
+</script>
+
+<script type="x-handlebars-template" id="category-template">
+	{{ content }}
+</script>
+
+<script type="x-handlebars-template" id="product-template">
+	{{ content }}
+</script>
+
+<script type="x-handlebars-template" id="cart-full-template">
+	{{ content }}
+</script>
+
+<script type="x-handlebars-template" id="confirm-order-template">
+	{{ content }}
+</script>
+
+
+
 
 <div id="product-view"></div>
 <div id="button"></div>
