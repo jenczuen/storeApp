@@ -11,7 +11,15 @@
 	<div class="row-fluid">
 		<div class="span2">			
 			<%= render 'layouts/search-small-menu' %>
-			<%= render 'layouts/cart-small' %>
+
+			<div class="cart-small">
+				<h4>Aktualna zawartość koszyka:</h4>
+				<div id="cart-small"></div>
+				<a href="#" onclick="useCase.showCart()">
+					Full content of the cart.
+				</a>
+			</div>
+
 		</div>
 		<div class="span10">
 			<div id="home-page"></div>
@@ -24,6 +32,11 @@
 	</div>
 </div>	
 <%= render 'layouts/footer' %>	
+
+
+
+
+<!-- scripts - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <script type="x-handlebars-template" id="home-page-template">
 	<h1> Welcome! </h1>	
@@ -73,13 +86,55 @@
 		Price: {{ price }} <br>
 		Description: {{ description }}
 	</div>
-	<a href="#" onclick={{ function_name }}>
+	<a href="#" onclick={{ function_add_to_cart }}>
+		Add product to cart
+	</a> <br>
+	<a href="#" onclick={{ function_go_back }}>
 		Go to {{ category }}
 	</a>
 </script>
 
 <script type="x-handlebars-template" id="cart-full-template">
-
+	<h1> Twój koszyk </h1>
+	<center>
+	{{#if hasAccount}}
+		Witaj {{ firstName }}<br>
+	{{else}}
+		Nie masz jeszcze konta w moim sklepie!<br>
+	{{/if}}
+	{{#if empty}}
+		Twój koszyk jest pusty! <br>
+	{{else}}
+		Lista rzeczy w Twoim koszyku: <br>
+		<table border="1" cellpadding="6">
+			<tr align="center">
+				<td>Autor</td>
+				<td>Tytuł</td>
+				<td>Ilość</td>
+				<td>cena za sztuke</td>
+				<td>cena w sumie</td>
+			</tr>
+			{{#each orderItems}}
+				<tr align="center">
+					<td>{{ this.author }}</td>
+					<td>
+						<a href="#" onclick={{ this.function_show }}>
+							{{ this.title }}
+						</a>	
+					</td>
+					<td>{{ this.quantity }}</td>
+					<td>{{ this.price }}</td>
+					<td>{{ this.total_price }}</td>
+					<td>
+						<a href="#" onclick={{ this.function_remove }}>
+							usun z koszyka
+						</a>	
+					</td>
+				</tr>
+			{{/each}}
+		</table>
+	{{/if}}
+	<center/>	
 </script>
 
 <script type="x-handlebars-template" id="confirm-order-template">

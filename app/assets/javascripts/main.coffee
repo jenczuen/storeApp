@@ -67,6 +67,7 @@ class NavigationUseCases
 		@currentProductsCategory = null
 		@currentCategory = null
 		@allCategories = []
+		@cartContent = []
 
 	init: =>
 
@@ -90,13 +91,42 @@ class NavigationUseCases
 			if c.id == @currentProduct.category_id
 				@currentProductsCategory = c
 
+	showCart: =>
+
+	addProductToCart: (product_id) =>
+		product = @allProducts.find((product) -> product.id == product_id)
+		orderItem = @cartContent.find((orderItem) -> orderItem.product.id == product_id)
+		if orderItem != undefined
+			orderItem.increase()
+		else
+			@cartContent.add(new OrderItem(product,1))
+
+	removeProductFromCart: (product_id) =>
+		orderItem = @cartContent.find((item) -> item.product.id == product_id)
+		if orderItem != null
+			if orderItem.quantity > 1
+				orderItem.decrease()
+			else
+				@cartContent.remove(orderItem)
+
 
 class Product
 	constructor: (@author, @title, @price, @description, @category_id, @id) ->
 
-
 class Category
 	constructor: (@name, @id) ->
+
+class OrderItem
+	constructor: (@product, @quantity) ->
+		@total_price = @product.price * @quantity
+
+	increase: =>
+		@quantity = @quantity + 1
+		@total_price = @product.price * @quantity
+
+	decrease: =>
+		@quantity = @quantity - 1
+		@total_price = @product.price * @quantity
 
 
 class Gui
@@ -159,11 +189,32 @@ class Gui
 				title: product.title, 
 				price: product.price,
 				description: product.description
-				function_name: "useCase.showCategory("+category.id+")"
+				function_go_back: "useCase.showCategory("+category.id+")"
+				function_add_to_cart: "useCase.addProductToCart("+product.id+")"
 				category: category.name
 			}
 		html = template(data)
 		$("#product").html(html)
+
+	showCart: (items) =>
+		source = $("#cart-full-template").html()
+		template = Handlebars.compile(source)
+		data = { orderItems: [] }
+		for item in items
+			data.orderItems.push({
+									author: item.product.author
+									title: item.product.title
+									price: item.product.price
+									id: item.product.id
+									function_show: 
+										"useCase.showProduct("+item.product.id+")"
+									function_remove: 
+										"useCase.removeProductFromCart("+item.product.id+")"
+									quantity: item.quantity
+									total_price: item.total_price
+								})
+		html = template(data)
+		$("#cart-full").html(html)
 
 
 class Glue
@@ -184,6 +235,15 @@ class Glue
 
 		Before(@useCase, 'showProduct', => @gui.clearAll())
 		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct,@useCase.currentProductsCategory))
+
+		Before(@useCase, 'showCart', => @gui.clearAll())
+		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent))
+
+		Before(@useCase, 'addProductToCart', => @gui.clearAll())
+		After(@useCase, 'addProductToCart', => @gui.showCart(@useCase.cartContent))
+
+		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
+		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
 
 
 class Main
