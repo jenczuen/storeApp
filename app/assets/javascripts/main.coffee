@@ -109,6 +109,15 @@ class NavigationUseCases
 			else
 				@cartContent.remove(orderItem)
 
+	confirmOrder: =>
+		#if buyer's personal data not set
+		#	useCase.getBuyersPersonalData
+		#else 
+		#	notthing
+
+	getBuyersPersonalData: =>
+
+
 
 class Product
 	constructor: (@author, @title, @price, @description, @category_id, @id) ->
@@ -216,6 +225,8 @@ class Gui
 		html = template(data)
 		$("#cart-full").html(html)
 
+	showFormForBuyerPersonalData: =>
+		$("#cart-full-template").html()
 
 class Glue
 	constructor: (@useCase, @gui, @storage)->
