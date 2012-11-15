@@ -149,6 +149,7 @@ class Gui
 		$("#product").html("")
 		$("#cart-full").html("")
 		$("#confirm-order").html("")
+		$("#buyers-data").html("")
 
 	showHomePage: (products) =>
 		source = $("#home-page-template").html()
@@ -226,7 +227,7 @@ class Gui
 		$("#cart-full").html(html)
 
 	showFormForBuyerPersonalData: =>
-		$("#cart-full-template").html()
+		$("#buyers-data").html($("#buyers-data-template").html())
 
 class Glue
 	constructor: (@useCase, @gui, @storage)->

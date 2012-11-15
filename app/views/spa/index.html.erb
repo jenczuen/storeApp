@@ -28,6 +28,7 @@
 			<div id="product"></div>
 			<div id="cart-full"></div>
 			<div id="confirm-order"></div>
+			<div id="buyers-data"></div>
 		</div>
 	</div>
 </div>	
@@ -139,4 +140,21 @@
 
 <script type="x-handlebars-template" id="confirm-order-template">
 
+</script>
+
+<script type="x-handlebars-template" id="buyers-data-template">
+	Nie masz konta, podaj dane do zamówienia: <br>
+
+<form name="myform" action="" method="GET">Enter something in the box: <br>
+<input type="text" name="inputbox" value=""><p>
+<input type="button" name="button" value="Click" onClick="testResults(this.form)">
+</form>
+
+</script>
+
+<script language="JavaScript">
+function testResults (form) {
+    var TestVar = form.inputbox.value;
+    alert ("You typed: " + TestVar);
+}
 </script>
