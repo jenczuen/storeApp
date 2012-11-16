@@ -68,6 +68,7 @@ class NavigationUseCases
 		@currentCategory = null
 		@allCategories = []
 		@cartContent = []
+		@buyerData = null
 
 	init: =>
 
@@ -110,14 +111,19 @@ class NavigationUseCases
 				@cartContent.remove(orderItem)
 
 	confirmOrder: =>
-		#if buyer's personal data not set
-		#	useCase.getBuyersPersonalData
-		#else 
-		#	notthing
 
 	getBuyersPersonalData: =>
 
+	saveBuyerPersonalData: (form) =>
+		firstName = form.firstName.value
+		secondName = form.secondName.value
+		street = form.street.value
+		city = form.city.value
+		@buyerData = new BuyerData(firstName,secondName,street,city)
 
+
+class BuyerData
+	constructor: (@firstName,@secondName,@street,@city) ->
 
 class Product
 	constructor: (@author, @title, @price, @description, @category_id, @id) ->
@@ -227,7 +233,26 @@ class Gui
 		$("#cart-full").html(html)
 
 	showFormForBuyerPersonalData: =>
-		$("#buyers-data").html($("#buyers-data-template").html())
+		source = $("#buyers-data-template").html()
+		template = Handlebars.compile(source)
+		data = { hasAccount:false }
+		html = template(data)
+		$("#buyers-data").html(html)
+
+	showBuyerPersonalData: (data) =>
+		source = $("#buyers-data-template").html()
+		template = Handlebars.compile(source)
+		data = { 
+					hasAccount:true
+					firstName:data.firstName, 
+					secondName:data.secondName, 
+					street:data.street, 
+					city:data.city
+				}
+		html = template(data)
+		$("#buyers-data").html(html)
+			
+
 
 class Glue
 	constructor: (@useCase, @gui, @storage)->
@@ -256,6 +281,14 @@ class Glue
 
 		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
 		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
+
+		Before(@useCase, 'getBuyersPersonalData', => @gui.clearAll())
+		After(@useCase, 'getBuyersPersonalData', => @gui.showFormForBuyerPersonalData())
+
+		After(@useCase, 'saveBuyerPersonalData', => @useCase.confirmOrder())
+
+		Before(@useCase, 'confirmOrder', => @gui.clearAll())
+		After(@useCase, 'confirmOrder', => @gui.showBuyerPersonalData(useCase.buyerData))
 
 
 class Main

@@ -135,7 +135,12 @@
 			{{/each}}
 		</table>
 	{{/if}}
-	<center/>	
+	<br>
+	<a href="#" class="btn btn-large btn-primary" onClick="useCase.getBuyersPersonalData()">
+		Potwierdz zamowienie
+	</a>
+	</center>	
+
 </script>
 
 <script type="x-handlebars-template" id="confirm-order-template">
@@ -143,18 +148,19 @@
 </script>
 
 <script type="x-handlebars-template" id="buyers-data-template">
-	Nie masz konta, podaj dane do zamówienia: <br>
-
-<form name="myform" action="" method="GET">Enter something in the box: <br>
-<input type="text" name="inputbox" value=""><p>
-<input type="button" name="button" value="Click" onClick="testResults(this.form)">
-</form>
-
-</script>
-
-<script language="JavaScript">
-function testResults (form) {
-    var TestVar = form.inputbox.value;
-    alert ("You typed: " + TestVar);
-}
+	{{#if hasAccount}}
+		{{ firstName }} <br>
+		{{ secondName }} <br>
+		{{ street }} <br>
+		{{ city }} <br>
+	{{else}}
+		Nie masz konta, podaj dane do zamówienia: <br>
+		<form name="myform" action="" method="GET">Enter something in the box: <br>
+		<input type="text" name="firstName" value=""><p>
+		<input type="text" name="secondName" value=""><p>
+		<input type="text" name="street" value=""><p>
+		<input type="text" name="city" value=""><p>
+		<input type="button" name="button" value="Click" onClick="useCase.saveBuyerPersonalData(this.form)">
+		</form>
+	{{/if}}
 </script>
