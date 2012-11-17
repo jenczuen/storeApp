@@ -126,6 +126,16 @@ class DatabaseApi
 		})
 		@sessionId = @json_data.id
 
+	confirmOrder: =>
+		@basket = []
+		$.ajax({
+			type: "POST",
+			url: '/spa/confirmOrder.json',
+			async: false,
+			dataType: 'json',
+			data: { "confirm": "order" }
+		})
+
 	flush: =>
 		@json_data = []
 		@products = []
@@ -192,6 +202,7 @@ class NavigationUseCases
 				@cartContent.remove(orderItem)
 
 	confirmOrder: =>
+		@cartContent = []
 		if @buyerData == null
 			@showFormForBuyerPersonalData()
 		else
@@ -393,7 +404,7 @@ class Glue
 
 		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
 		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
-		After(@useCase, 'removeProductFromCart', => @useCase.updateSmallCart())		
+		After(@useCase, 'removeProductFromCart', => @useCase.updateSmallCart())	
 		After(@useCase, 'removeProductFromCart', => @storage.sendBasket(@useCase.cartContent))
 
 		Before(@useCase, 'showFormForBuyerPersonalData', => @gui.clearAll())
@@ -403,9 +414,10 @@ class Glue
 		After(@useCase, 'saveBuyerPersonalData', => @storage.sendBuyerData(useCase.buyerData))
 		After(@useCase, 'saveBuyerPersonalData', => @useCase.orderConfirmed())
 
+		Before(@useCase, 'orderConfirmed', => @storage.confirmOrder())
+		Before(@useCase, 'orderConfirmed', => @useCase.updateSmallCart())				
 		Before(@useCase, 'orderConfirmed', => @gui.clearAll())
 		After(@useCase, 'orderConfirmed', => @gui.showConfirmedOrder(useCase.buyerData))
-
 
 class Main
 	constructor: ->

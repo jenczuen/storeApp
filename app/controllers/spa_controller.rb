@@ -78,4 +78,14 @@ class SpaController < ApplicationController
 		end
 	end
 
+	def confirmOrder
+		order = current_buyer.current_order
+		order.current = false
+		order.status = "confirmed"
+		order.save
+		respond_to do |format|
+			format.json { render :json => "ok" }
+		end
+	end
+
 end
