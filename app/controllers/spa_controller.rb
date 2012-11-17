@@ -45,13 +45,18 @@ class SpaController < ApplicationController
 		end
 	end
 
-	def echo
-		p = Product.new()
-		p.author = params[:sample]
-#		p.save
-		respond_to do |format|
-			format.json { render :json => "ok" }
+	def getBasket
+		order = current_buyer.current_order
+		basket = []
+		for item in order.order_items
+			basket.push({:product => item.product, :quantity => item.quantity})
 		end
+		respond_to do |format|
+			format.json { render :json =>  basket}
+		end		
+	end
+
+	def sendBasket
 	end
 
 end

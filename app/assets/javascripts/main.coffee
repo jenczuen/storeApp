@@ -1,9 +1,10 @@
 class DatabaseApi
 	constructor: ->
-		@json_data
-		@products
-		@categories
-		@buyerData
+		@json_data = null
+		@products = null
+		@categories = null
+		@buyerData = null
+		@basket = null
 	
 	saveJsonData: (json_data) ->
 		@json_data = json_data
@@ -42,7 +43,7 @@ class DatabaseApi
 									))
 		@categories
 
-	sendOrder: =>
+	sendBasket: =>
 		$.ajax({
 			type: "POST",
 			url: '/spa/echo',
@@ -52,7 +53,32 @@ class DatabaseApi
 			data: {"sample": "data"}
 		})
 
-	getOrder: =>
+	getBasket: =>
+		$.ajax({
+			url: '/spa/getBasket.json',
+			async: false,
+			dataType: 'json',
+			success: (data, status) => @saveJsonData(data)
+		})
+		@basket = []
+		product = null
+		if @json_data != []
+			for item in @json_data
+				product = new Product(
+										item.product.author,
+										item.product.title,
+										item.product.price,
+										item.product.description,
+										item.product.category_id,
+										item.product.id
+									)
+				@basket.add( new OrderItem(
+											product,
+											item.quantity
+										))
+		else
+			@basket = null
+		@basket
 
 	sendBuyerData: (buyerData) =>	
 		$.ajax({
@@ -122,6 +148,9 @@ class NavigationUseCases
 
 	setBuyerData: (buyerData) =>
 		@buyerData = buyerData
+
+	setBasket: (basket) =>
+		@cartContent = basket
 
 	showHomePage: =>
 	showAllCategories: =>
@@ -332,6 +361,8 @@ class Glue
 		Before(@useCase, 'init', => @useCase.setInitialProducts(@storage.getProducts()))
 		Before(@useCase, 'init', => @useCase.setInitialCategories(@storage.getCategories()))
 		Before(@useCase, 'init', => @useCase.setBuyerData(@storage.getBuyerData()))		
+		Before(@useCase, 'init', => @useCase.setBasket(@storage.getBasket()))				
+		After(@useCase, 'init', => @useCase.updateSmallCart())		
 
 		Before(@useCase, 'showHomePage', => @gui.clearAll())
 		After(@useCase, 'showHomePage', => @gui.showHomePage(@useCase.allProducts))		

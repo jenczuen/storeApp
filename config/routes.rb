@@ -30,7 +30,8 @@ StoreApp::Application.routes.draw do
   match "/spa/getSessionId" => "spa#getSessionId", :via => :get
   match "/spa/getCurrentBuyer" => "spa#getCurrentBuyer", :via => :get  
   match "/spa/sendCurrentBuyer" => "spa#sendCurrentBuyer", :via => :post  
-  match "/spa/echo" => "spa#echo", :via => :post  
+  match "/spa/getBasket" => "spa#getBasket", :via => :get  
+  match "/spa/sendBasket" => "spa#sendBasket", :via => :post  
   resources :spa
 
 end
