@@ -3,13 +3,12 @@ class DatabaseApi
 		@json_data
 		@products
 		@categories
+		@buyerData
 	
 	saveJsonData: (json_data) ->
 		@json_data = json_data
 
 	getProducts: =>
-#		@sendSampleDataViaJson()
-
 		$.ajax({
 			url: '/spa/getProducts.json',
 			async: false,
@@ -43,7 +42,7 @@ class DatabaseApi
 									))
 		@categories
 
-	sendSampleDataViaJson: =>
+	sendOrder: =>
 		$.ajax({
 			type: "POST",
 			url: '/spa/echo',
@@ -52,6 +51,49 @@ class DatabaseApi
 #			processData : false,
 			data: {"sample": "data"}
 		})
+
+	getOrder: =>
+
+	sendBuyerData: (buyerData) =>	
+		$.ajax({
+			type: "POST",
+			url: '/spa/sendCurrentBuyer.json',
+			async: false,
+			dataType: 'json',
+			data: {
+					"firstName": buyerData.firstName,
+					"secondName": buyerData.secondName,
+					"street": buyerData.street,
+					"city": buyerData.city
+				}
+		})
+
+	getBuyerData: =>	
+		$.ajax({
+			url: '/spa/getCurrentBuyer.json',
+			async: false,
+			dataType: 'json',
+			success: (data, status) => @saveJsonData(data)
+		})
+		if @json_data.hasAccount == true
+			@buyerData = new BuyerData(
+										@json_data.firstName,
+										@json_data.secondName,
+										@json_data.street,
+										@json_data.city,
+									)
+		else
+			@buyerData = null
+		@buyerData
+
+	getSessionId: =>
+		$.ajax({
+			url: '/spa/getSessionId.json',
+			async: false,
+			dataType: 'json',
+			success: (data, status) => @saveJsonData(data)
+		})
+		@sessionId = @json_data.id
 
 	flush: =>
 		@json_data = []
@@ -77,6 +119,9 @@ class NavigationUseCases
 
 	setInitialCategories: (categories) =>
 		@allCategories = categories
+
+	setBuyerData: (buyerData) =>
+		@buyerData = buyerData
 
 	showHomePage: =>
 	showAllCategories: =>
@@ -243,12 +288,9 @@ class Gui
 	updateSmallCart: (items) =>
 		source = $("#cart-small-template").html()
 		template = Handlebars.compile(source)
-		console.log(items)
 		if items.length < 1
-			console.log("empty")
 			data = { empty:true }
 		else
-			console.log("non empty")
 			data = { orderItems: [] }
 			for item in items
 				data.orderItems.push({
@@ -289,6 +331,7 @@ class Glue
 
 		Before(@useCase, 'init', => @useCase.setInitialProducts(@storage.getProducts()))
 		Before(@useCase, 'init', => @useCase.setInitialCategories(@storage.getCategories()))
+		Before(@useCase, 'init', => @useCase.setBuyerData(@storage.getBuyerData()))		
 
 		Before(@useCase, 'showHomePage', => @gui.clearAll())
 		After(@useCase, 'showHomePage', => @gui.showHomePage(@useCase.allProducts))		
@@ -319,6 +362,7 @@ class Glue
 		After(@useCase, 'showFormForBuyerPersonalData', => @gui.showFormForBuyerPersonalData())
 
 		Before(@useCase, 'saveBuyerPersonalData', => @gui.clearAll())
+		After(@useCase, 'saveBuyerPersonalData', => @storage.sendBuyerData(useCase.buyerData))
 		After(@useCase, 'saveBuyerPersonalData', => @useCase.orderConfirmed())
 
 		Before(@useCase, 'orderConfirmed', => @gui.clearAll())
