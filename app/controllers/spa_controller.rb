@@ -57,6 +57,31 @@ class SpaController < ApplicationController
 	end
 
 	def sendBasket
+		order = current_buyer.current_order
+		items = order.order_items
+		for new_item in params[:items]
+			product_id = new_item[1][:product_id]
+			quantity = new_item[1][:quantity]
+			#szukamy czy taki juz jest
+			items.each do |item|
+				#jak jest to ustawiamy ilosc i zapisujemy
+				if item.product.id == product_id
+					item.quantity = quantity
+					item.priceForAll = item.product.price*quantity
+					item.save
+					return
+				end
+			end
+			#jezeli nie to dodajemy
+			item = order.order_items.create(:quantity => 1)
+			item.product_id = product_id
+			item.save
+			item.priceForAll = item.product.price
+			item.save
+		end
+		respond_to do |format|
+			format.json { render :json => "ok" }
+		end
 	end
 
 end

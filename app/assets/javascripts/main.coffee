@@ -43,14 +43,19 @@ class DatabaseApi
 									))
 		@categories
 
-	sendBasket: =>
+	sendBasket: (basket) =>
+		result = { items: [] }
+		for item in basket
+			result.items.push(
+								product_id: item.product.id
+								quantity: item.quantity
+							)
 		$.ajax({
 			type: "POST",
-			url: '/spa/echo',
+			url: '/spa/sendBasket.json',
 			async: false,
 			dataType: 'json',
-#			processData : false,
-			data: {"sample": "data"}
+			data: result
 		})
 
 	getBasket: =>
@@ -383,11 +388,13 @@ class Glue
 
 		Before(@useCase, 'addProductToCart', => @gui.clearAll())
 		After(@useCase, 'addProductToCart', => @gui.showCart(@useCase.cartContent))
-		After(@useCase, 'addProductToCart', => @useCase.updateSmallCart())		
+		After(@useCase, 'addProductToCart', => @useCase.updateSmallCart())
+		After(@useCase, 'addProductToCart', => @storage.sendBasket(@useCase.cartContent))
 
 		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
 		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
 		After(@useCase, 'removeProductFromCart', => @useCase.updateSmallCart())		
+		After(@useCase, 'removeProductFromCart', => @storage.sendBasket(@useCase.cartContent))
 
 		Before(@useCase, 'showFormForBuyerPersonalData', => @gui.clearAll())
 		After(@useCase, 'showFormForBuyerPersonalData', => @gui.showFormForBuyerPersonalData())
