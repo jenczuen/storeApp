@@ -94,6 +94,8 @@ class NavigationUseCases
 
 	showCart: =>
 
+	updateSmallCart: =>
+
 	addProductToCart: (product_id) =>
 		product = @allProducts.find((product) -> product.id == product_id)
 		orderItem = @cartContent.find((orderItem) -> orderItem.product.id == product_id)
@@ -111,8 +113,14 @@ class NavigationUseCases
 				@cartContent.remove(orderItem)
 
 	confirmOrder: =>
+		if @buyerData == null
+			@showFormForBuyerPersonalData()
+		else
+			@orderConfirmed()
 
-	getBuyersPersonalData: =>
+	orderConfirmed: =>
+
+	showFormForBuyerPersonalData: =>
 
 	saveBuyerPersonalData: (form) =>
 		firstName = form.firstName.value
@@ -232,27 +240,48 @@ class Gui
 		html = template(data)
 		$("#cart-full").html(html)
 
-	showFormForBuyerPersonalData: =>
-		source = $("#buyers-data-template").html()
+	updateSmallCart: (items) =>
+		source = $("#cart-small-template").html()
 		template = Handlebars.compile(source)
-		data = { hasAccount:false }
+		console.log(items)
+		if items.length < 1
+			console.log("empty")
+			data = { empty:true }
+		else
+			console.log("non empty")
+			data = { orderItems: [] }
+			for item in items
+				data.orderItems.push({
+										title: item.product.title
+										function_show: 
+											"useCase.showProduct("+item.product.id+")"
+										function_remove: 
+											"useCase.removeProductFromCart("+item.product.id+")"
+										quantity: item.quantity
+										total_price: item.total_price
+									})
+		html = template(data)
+		$("#cart-small").html(html)
+
+	showFormForBuyerPersonalData: =>
+		source = $("#get-buyers-data-template").html()
+		template = Handlebars.compile(source)
+		data = {}
 		html = template(data)
 		$("#buyers-data").html(html)
 
-	showBuyerPersonalData: (data) =>
-		source = $("#buyers-data-template").html()
+	showConfirmedOrder: (buyersData) =>
+		source = $("#confirm-order-template").html()
 		template = Handlebars.compile(source)
 		data = { 
-					hasAccount:true
-					firstName:data.firstName, 
-					secondName:data.secondName, 
-					street:data.street, 
-					city:data.city
+					firstName:buyersData.firstName, 
+					secondName:buyersData.secondName, 
+					street:buyersData.street, 
+					city:buyersData.city
 				}
 		html = template(data)
 		$("#buyers-data").html(html)
 			
-
 
 class Glue
 	constructor: (@useCase, @gui, @storage)->
@@ -276,19 +305,24 @@ class Glue
 		Before(@useCase, 'showCart', => @gui.clearAll())
 		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent))
 
+		After(@useCase, 'updateSmallCart', => @gui.updateSmallCart(@useCase.cartContent))
+
 		Before(@useCase, 'addProductToCart', => @gui.clearAll())
 		After(@useCase, 'addProductToCart', => @gui.showCart(@useCase.cartContent))
+		After(@useCase, 'addProductToCart', => @useCase.updateSmallCart())		
 
 		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
 		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
+		After(@useCase, 'removeProductFromCart', => @useCase.updateSmallCart())		
 
-		Before(@useCase, 'getBuyersPersonalData', => @gui.clearAll())
-		After(@useCase, 'getBuyersPersonalData', => @gui.showFormForBuyerPersonalData())
+		Before(@useCase, 'showFormForBuyerPersonalData', => @gui.clearAll())
+		After(@useCase, 'showFormForBuyerPersonalData', => @gui.showFormForBuyerPersonalData())
 
-		After(@useCase, 'saveBuyerPersonalData', => @useCase.confirmOrder())
+		Before(@useCase, 'saveBuyerPersonalData', => @gui.clearAll())
+		After(@useCase, 'saveBuyerPersonalData', => @useCase.orderConfirmed())
 
-		Before(@useCase, 'confirmOrder', => @gui.clearAll())
-		After(@useCase, 'confirmOrder', => @gui.showBuyerPersonalData(useCase.buyerData))
+		Before(@useCase, 'orderConfirmed', => @gui.clearAll())
+		After(@useCase, 'orderConfirmed', => @gui.showConfirmedOrder(useCase.buyerData))
 
 
 class Main
