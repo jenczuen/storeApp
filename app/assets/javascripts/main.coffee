@@ -4,7 +4,7 @@ class DatabaseApi
 		@products = null
 		@categories = null
 		@buyerData = null
-		@basket = null
+		@cart = null
 		@searchResult = null
 	
 	saveJsonData: (json_data) ->
@@ -44,29 +44,29 @@ class DatabaseApi
 									))
 		@categories
 
-	sendBasket: (basket) =>
+	sendCart: (cart) =>
 		result = { items: [] }
-		for item in basket
+		for item in cart
 			result.items.push(
 								product_id: item.product.id
 								quantity: item.quantity
 							)
 		$.ajax({
 			type: "POST",
-			url: '/spa/sendBasket.json',
+			url: '/spa/sendCart.json',
 			async: false,
 			dataType: 'json',
 			data: result
 		})
 
-	getBasket: =>
+	getCart: =>
 		$.ajax({
-			url: '/spa/getBasket.json',
+			url: '/spa/getCart.json',
 			async: false,
 			dataType: 'json',
 			success: (data, status) => @saveJsonData(data)
 		})
-		@basket = []
+		@cart = []
 		product = null
 		if @json_data != []
 			for item in @json_data
@@ -78,13 +78,13 @@ class DatabaseApi
 										item.product.category_id,
 										item.product.id
 									)
-				@basket.add( new OrderItem(
+				@cart.add( new OrderItem(
 											product,
 											item.quantity
 										))
 		else
-			@basket = null
-		@basket
+			@cart = null
+		@cart
 
 	sendBuyerData: (buyerData) =>	
 		$.ajax({
@@ -128,7 +128,7 @@ class DatabaseApi
 		@sessionId = @json_data.id
 
 	confirmOrder: =>
-		@basket = []
+		@cart = []
 		$.ajax({
 			type: "POST",
 			url: '/spa/confirmOrder.json',
@@ -183,12 +183,13 @@ class NavigationUseCases
 
 	setInitialCategories: (categories) =>
 		@allCategories = categories
+		@currentProductsCategory = @allCategories[0]
 
 	setBuyerData: (buyerData) =>
 		@buyerData = buyerData
 
-	setBasket: (basket) =>
-		@cartContent = basket
+	setCart: (cart) =>
+		@cartContent = cart
 
 	showHomePage: =>
 	showAllCategories: =>
@@ -347,7 +348,10 @@ class Gui
 	showCart: (items) =>
 		source = $("#cart-full-template").html()
 		template = Handlebars.compile(source)
-		data = { orderItems: [] }
+		data = { 
+#					goBackFunction: "useCase.showCategory("+category_id+")", 
+					orderItems: [] 
+				}
 		for item in items
 			data.orderItems.push({
 									author: item.product.author
@@ -425,7 +429,7 @@ class Glue
 		Before(@useCase, 'init', => @useCase.setInitialProducts(@storage.getProducts()))
 		Before(@useCase, 'init', => @useCase.setInitialCategories(@storage.getCategories()))
 		Before(@useCase, 'init', => @useCase.setBuyerData(@storage.getBuyerData()))		
-		Before(@useCase, 'init', => @useCase.setBasket(@storage.getBasket()))				
+		Before(@useCase, 'init', => @useCase.setCart(@storage.getCart()))				
 		After(@useCase, 'init', => @useCase.updateSmallCart())		
 
 		Before(@useCase, 'showHomePage', => @gui.clearAll())
@@ -441,19 +445,20 @@ class Glue
 		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct,@useCase.currentProductsCategory))
 
 		Before(@useCase, 'showCart', => @gui.clearAll())
-		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent))
+		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent))		
+#		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent,@useCase.currentProductsCategory.id))
 
 		After(@useCase, 'updateSmallCart', => @gui.updateSmallCart(@useCase.cartContent))
 
 		Before(@useCase, 'addProductToCart', => @gui.clearAll())
 		After(@useCase, 'addProductToCart', => @gui.showCart(@useCase.cartContent))
 		After(@useCase, 'addProductToCart', => @useCase.updateSmallCart())
-		After(@useCase, 'addProductToCart', => @storage.sendBasket(@useCase.cartContent))
+		After(@useCase, 'addProductToCart', => @storage.sendCart(@useCase.cartContent))
 
 		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
 		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
 		After(@useCase, 'removeProductFromCart', => @useCase.updateSmallCart())	
-		After(@useCase, 'removeProductFromCart', => @storage.sendBasket(@useCase.cartContent))
+		After(@useCase, 'removeProductFromCart', => @storage.sendCart(@useCase.cartContent))
 
 		Before(@useCase, 'showFormForBuyerPersonalData', => @gui.clearAll())
 		After(@useCase, 'showFormForBuyerPersonalData', => @gui.showFormForBuyerPersonalData())

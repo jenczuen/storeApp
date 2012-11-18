@@ -45,18 +45,18 @@ class SpaController < ApplicationController
 		end
 	end
 
-	def getBasket
+	def getCart
 		order = current_buyer.current_order
-		basket = []
+		cart = []
 		for item in order.order_items
-			basket.push({:product => item.product, :quantity => item.quantity})
+			cart.push({:product => item.product, :quantity => item.quantity})
 		end
 		respond_to do |format|
-			format.json { render :json =>  basket}
+			format.json { render :json =>  cart}
 		end		
 	end
 
-	def sendBasket
+	def sendCart
 		#not the best way but works
 		order = current_buyer.current_order
 		#remove all
