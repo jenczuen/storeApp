@@ -219,6 +219,9 @@ class NavigationUseCases
 		city = form.city.value
 		@buyerData = new BuyerData(firstName,secondName,street,city)
 
+	search: =>
+
+	getSearchResults: =>
 
 class BuyerData
 	constructor: (@firstName,@secondName,@street,@city) ->

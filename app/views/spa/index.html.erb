@@ -18,7 +18,28 @@
 				</a>
 			</div>
 			<br>
-			<%= render 'layouts/search-small-menu' %>
+
+			<h3>Szukaj:</h3>
+			<form name="myform" action="" method="GET">
+				<label for="q_title_cont">Tytuł: </label>
+				<input id="q_title_cont" name="title_cont" size="30" style="width:130px" type="text" />
+			
+				<label for="q_author_cont">Opis:</label>
+				<input id="q_description_cont" name="description_cont" size="30" style="width:130px" type="text" />
+
+				<label for="q_author_cont">Autor:</label>
+				<input id="q_author_cont" name="q[author_cont]" size="30" style="width:130px" type="text" />
+			
+				<label for="q_price_gteq">Cena od:</label>
+				<input id="q_price_gteq" name="q[price_gteq]" size="30" style="width:130px" type="text" />
+			
+				<label for="q_price_lteq">do:</label>
+				<input id="q_price_lteq" name="q[price_lteq]" size="30" style="width:130px" type="text" />
+				<br>	
+				<input type="button" name="button" value="Click" onClick="useCase.search(this.form)">
+				</form>
+			</form>
+
 
 		</div>
 		<div class="span10">
@@ -29,6 +50,7 @@
 			<div id="cart-full"></div>
 			<div id="confirm-order"></div>
 			<div id="buyers-data"></div>
+			<div id="search-results"></div>			
 		</div>
 	</div>
 </div>	
@@ -195,4 +217,9 @@
 	<input type="text" name="city" value=""><p>
 	<input type="button" name="button" value="Click" onClick="useCase.saveBuyerPersonalData(this.form)">
 	</form>
+</script>
+
+
+<script type="x-handlebars-template" id="search-result-template">
+
 </script>
