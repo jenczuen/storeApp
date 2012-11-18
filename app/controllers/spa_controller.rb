@@ -2,6 +2,7 @@ class SpaController < ApplicationController
 	before_filter :set_spa
 
 	def index
+		current_buyer
 	end
 
 	def getProducts
