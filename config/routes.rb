@@ -32,7 +32,8 @@ StoreApp::Application.routes.draw do
   match "/spa/sendCurrentBuyer" => "spa#sendCurrentBuyer", :via => :post  
   match "/spa/getBasket" => "spa#getBasket", :via => :get  
   match "/spa/sendBasket" => "spa#sendBasket", :via => :post  
-  match "/spa/confirmOrder" => "spa#confirmOrder", :via => :post    
+  match "/spa/confirmOrder" => "spa#confirmOrder", :via => :post
+  match "/spa/searchProducts" => "spa#searchProducts", :via => :post  
   resources :spa
 
 end

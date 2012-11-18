@@ -5,6 +5,7 @@ class DatabaseApi
 		@categories = null
 		@buyerData = null
 		@basket = null
+		@searchResult = null
 	
 	saveJsonData: (json_data) ->
 		@json_data = json_data
@@ -136,6 +137,27 @@ class DatabaseApi
 			data: { "confirm": "order" }
 		})
 
+	sendSearchRequest: (request) =>
+		$.ajax({
+			type: "POST",
+			url: '/spa/searchProducts.json',
+			async: false,
+			dataType: 'json',
+			data: { q : request }
+			success: (data, status) => @saveJsonData(data)
+		})
+		@searchResult = []
+		for item in @json_data
+			@searchResult.add( new Product(
+										item.author,
+										item.title,
+										item.price,
+										item.description,
+										item.category_id,
+										item.id
+									))
+		@searchResult
+
 	flush: =>
 		@json_data = []
 		@products = []
@@ -152,6 +174,7 @@ class NavigationUseCases
 		@allCategories = []
 		@cartContent = []
 		@buyerData = null
+		@searchRequest = null
 
 	init: =>
 
@@ -219,7 +242,14 @@ class NavigationUseCases
 		city = form.city.value
 		@buyerData = new BuyerData(firstName,secondName,street,city)
 
-	search: =>
+	search: (form) =>
+		@searchRequest = {
+							title_cont:  form.title_cont.value
+							description_cont:  form.description_cont.value
+							author_cont:  form.author_cont.value
+							price_gteq: form.price_gteq.value
+							price_lteq: form.price_lteq.value
+						}
 
 	getSearchResults: =>
 
@@ -371,6 +401,20 @@ class Gui
 				}
 		html = template(data)
 		$("#buyers-data").html(html)
+
+	showSearchResult: (products) =>
+		source = $("#search-result-template").html()
+		template = Handlebars.compile(source)
+		data = { products: [] }
+		for product in products
+			data.products.push({
+									author: product.author
+									title: product.title
+									id: product.id
+									function_name: "useCase.showProduct("+product.id+")"
+								})
+		html = template(data)
+		$("#search-result").html(html)
 			
 
 class Glue
@@ -414,13 +458,17 @@ class Glue
 		After(@useCase, 'showFormForBuyerPersonalData', => @gui.showFormForBuyerPersonalData())
 
 		Before(@useCase, 'saveBuyerPersonalData', => @gui.clearAll())
-		After(@useCase, 'saveBuyerPersonalData', => @storage.sendBuyerData(useCase.buyerData))
+		After(@useCase, 'saveBuyerPersonalData', => @storage.sendBuyerData(@useCase.buyerData))
 		After(@useCase, 'saveBuyerPersonalData', => @useCase.orderConfirmed())
 
 		Before(@useCase, 'orderConfirmed', => @storage.confirmOrder())
 		Before(@useCase, 'orderConfirmed', => @useCase.updateSmallCart())				
 		Before(@useCase, 'orderConfirmed', => @gui.clearAll())
-		After(@useCase, 'orderConfirmed', => @gui.showConfirmedOrder(useCase.buyerData))
+		After(@useCase, 'orderConfirmed', => @gui.showConfirmedOrder(@useCase.buyerData))
+
+		After(@useCase, 'search', => @storage.sendSearchRequest(@useCase.searchRequest))
+		After(@useCase, 'search', => @gui.clearAll())
+		After(@useCase, 'search', => @gui.showSearchResult(@storage.searchResult))
 
 class Main
 	constructor: ->

@@ -89,8 +89,9 @@ class SpaController < ApplicationController
 	end
 
 	def searchProducts
+		puts params[:q]
 		search = Product.search(params[:q])
-		search_result = @search.result
+		search_result = search.result
 		respond_to do |format|
 			format.json { render :json => search_result }
 		end
