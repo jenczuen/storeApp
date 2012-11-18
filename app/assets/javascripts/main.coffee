@@ -348,8 +348,13 @@ class Gui
 	showCart: (items) =>
 		source = $("#cart-full-template").html()
 		template = Handlebars.compile(source)
+		if items.length < 1
+			goBackFunction = "useCase.showHomePage()"
+		else
+			category_id = items[items.length-1].product.category_id
+			goBackFunction = "useCase.showCategory("+category_id+")"
 		data = { 
-#					goBackFunction: "useCase.showCategory("+category_id+")", 
+					goBackFunction: goBackFunction, 
 					orderItems: [] 
 				}
 		for item in items
@@ -445,7 +450,7 @@ class Glue
 		After(@useCase, 'showProduct', => @gui.showProduct(@useCase.currentProduct,@useCase.currentProductsCategory))
 
 		Before(@useCase, 'showCart', => @gui.clearAll())
-		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent))		
+		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent))
 #		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent,@useCase.currentProductsCategory.id))
 
 		After(@useCase, 'updateSmallCart', => @gui.updateSmallCart(@useCase.cartContent))

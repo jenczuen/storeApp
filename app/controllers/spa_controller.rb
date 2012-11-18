@@ -61,17 +61,19 @@ class SpaController < ApplicationController
 		order = current_buyer.current_order
 		#remove all
 		order.order_items.each {|i| i.delete}	
-		#add from scratch
-		for new_item in params[:items]
-			puts 3
-			product_id = new_item[1][:product_id]
-			quantity = new_item[1][:quantity]
+		if params[:items] != nil
+			#add from scratch
+			for new_item in params[:items]
+				puts 3
+				product_id = new_item[1][:product_id]
+				quantity = new_item[1][:quantity]
 
-			i = order.order_items.create(:quantity => quantity)
-			i.product_id = product_id
-			i.save
-			i.priceForAll = i.product.price
-			i.save			
+				i = order.order_items.create(:quantity => quantity)
+				i.product_id = product_id
+				i.save
+				i.priceForAll = i.product.price
+				i.save			
+			end
 		end
 		respond_to do |format|
 			format.json { render :json => "ok" }
