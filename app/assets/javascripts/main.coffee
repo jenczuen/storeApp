@@ -159,9 +159,12 @@ class DatabaseApi
 		@searchResult
 
 	flush: =>
-		@json_data = []
-		@products = []
-		@categories = []
+		@json_data = null
+		@products = null
+		@categories = null
+		@buyerData = null
+		@cart = null
+		@searchResult = null
 
 
 class NavigationUseCases
@@ -278,7 +281,6 @@ class OrderItem
 
 class Gui
 	constructor: ->
-		@productElements = []
 
 	clearAll: =>
 		$("#home-page").html("")
