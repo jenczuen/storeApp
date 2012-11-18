@@ -474,12 +474,12 @@ class Glue
 		After(@useCase, 'updateSmallCart', => @gui.updateSmallCart(@useCase.cartContent))
 
 		Before(@useCase, 'addProductToCart', => @gui.clearAll())
-		After(@useCase, 'addProductToCart', => @gui.showCart(@useCase.cartContent))
+		After(@useCase, 'addProductToCart', => @gui.showCart(@useCase.cartContent,@useCase.buyerData))
 		After(@useCase, 'addProductToCart', => @useCase.updateSmallCart())
 		After(@useCase, 'addProductToCart', => @storage.sendCart(@useCase.cartContent))
 
 		Before(@useCase, 'removeProductFromCart', => @gui.clearAll())
-		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent))
+		After(@useCase, 'removeProductFromCart', => @gui.showCart(@useCase.cartContent,@useCase.buyerData))
 		After(@useCase, 'removeProductFromCart', => @useCase.updateSmallCart())	
 		After(@useCase, 'removeProductFromCart', => @storage.sendCart(@useCase.cartContent))
 
