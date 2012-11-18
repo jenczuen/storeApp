@@ -287,6 +287,7 @@ class Gui
 		$("#cart-full").html("")
 		$("#confirm-order").html("")
 		$("#buyers-data").html("")
+		$("#search-result").html("")
 
 	showHomePage: (products) =>
 		source = $("#home-page-template").html()

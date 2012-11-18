@@ -26,14 +26,15 @@ StoreApp::Application.routes.draw do
 
   #SPA version:
   match "/spa/getProducts" => "spa#getProducts", :via => :get
-  match "/spa/getCategories" => "spa#getCategories", :via => :get  
+  match "/spa/getCategories" => "spa#getCategories", :via => :get
   match "/spa/getSessionId" => "spa#getSessionId", :via => :get
-  match "/spa/getCurrentBuyer" => "spa#getCurrentBuyer", :via => :get  
-  match "/spa/sendCurrentBuyer" => "spa#sendCurrentBuyer", :via => :post  
-  match "/spa/getBasket" => "spa#getBasket", :via => :get  
-  match "/spa/sendBasket" => "spa#sendBasket", :via => :post  
+  match "/spa/getCurrentBuyer" => "spa#getCurrentBuyer", :via => :get
+  match "/spa/sendCurrentBuyer" => "spa#sendCurrentBuyer", :via => :post
+  match "/spa/getBasket" => "spa#getBasket", :via => :get
+  match "/spa/sendBasket" => "spa#sendBasket", :via => :post
   match "/spa/confirmOrder" => "spa#confirmOrder", :via => :post
-  match "/spa/searchProducts" => "spa#searchProducts", :via => :post  
-  resources :spa
+  match "/spa/searchProducts" => "spa#searchProducts", :via => :post
+  match "/spa/" => "spa#index", :via => :get
+#  resources :spa
 
 end

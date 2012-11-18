@@ -1,8 +1,8 @@
 <header class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">	
-			<%= link_to_function "| Strona główna", "useCase.showHomePage()", id: "logo" %>
-			<%= link_to_function "| Kategorie", "useCase.showAllCategories()", id: "logo" %>
+			<%= link_to_function "| Homepage", "useCase.showHomePage()", id: "logo" %>
+			<%= link_to_function "| Categories", "useCase.showAllCategories()", id: "logo" %>
 		</div>
 	</div>
 </header>
@@ -11,7 +11,7 @@
 	<div class="row-fluid">
 		<div class="span2">			
 			<div class="cart-small">
-				<h4>Aktualna zawartość koszyka:</h4>
+				<h4>Current content of your cart:</h4>
 				<div id="cart-small"></div>
 				<a href="#" onclick="useCase.showCart()">
 					Full content of the cart.
@@ -19,24 +19,24 @@
 			</div>
 			<br>
 
-			<h3>Szukaj:</h3>
+			<h3>Search:</h3>
 			<form name="myform" action="" method="GET">
-				<label for="q_title_cont">Tytuł: </label>
+				<label for="q_title_cont">Title: </label>
 				<input id="q_title_cont" name="title_cont" size="30" style="width:130px" type="text" />
 			
-				<label for="q_author_cont">Opis:</label>
+				<label for="q_author_cont">Description:</label>
 				<input id="q_description_cont" name="description_cont" size="30" style="width:130px" type="text" />
 
-				<label for="q_author_cont">Autor:</label>
+				<label for="q_author_cont">Author:</label>
 				<input id="q_author_cont" name="author_cont" size="30" style="width:130px" type="text" />
 			
-				<label for="q_price_gteq">Cena od:</label>
+				<label for="q_price_gteq">Price from:</label>
 				<input id="q_price_gteq" name="price_gteq" size="30" style="width:130px" type="text" />
 			
-				<label for="q_price_lteq">do:</label>
+				<label for="q_price_lteq">to:</label>
 				<input id="q_price_lteq" name="price_lteq" size="30" style="width:130px" type="text" />
 				<br>	
-				<input type="button" name="button" value="Click" onClick="useCase.search(this.form)">
+				<input type="button" name="button" value="Search" onClick="useCase.search(this.form)">
 				</form>
 			</form>
 
@@ -76,7 +76,7 @@
 </script>
 
 <script type="x-handlebars-template" id="categories-template">
-	<h1> Lista wszystkich kategorii </h1>
+	<h1> All categories </h1>
 	<ul class="categories_list">
 	{{#each categories}}
 		<li>
@@ -118,24 +118,24 @@
 </script>
 
 <script type="x-handlebars-template" id="cart-full-template">
-	<h1> Twój koszyk </h1>
+	<h1> Your cart </h1>
 	<center>
 	{{#if hasAccount}}
-		Witaj {{ firstName }}<br>
+		Hello {{ firstName }}<br>
 	{{else}}
-		Nie masz jeszcze konta w moim sklepie!<br>
+		You dont have an account yet!<br>
 	{{/if}}
 	{{#if empty}}
-		Twój koszyk jest pusty! <br>
+		Your cart is empty! <br>
 	{{else}}
-		Lista rzeczy w Twoim koszyku: <br>
+		List of items in your cart: <br>
 		<table border="1" cellpadding="6">
 			<tr align="center">
-				<td>Autor</td>
-				<td>Tytuł</td>
-				<td>Ilość</td>
-				<td>cena za sztuke</td>
-				<td>cena w sumie</td>
+				<td>Author</td>
+				<td>Title</td>
+				<td>Quantity</td>
+				<td>Price for one</td>
+				<td>Price for all</td>
 			</tr>
 			{{#each orderItems}}
 				<tr align="center">
@@ -150,7 +150,7 @@
 					<td>{{ this.total_price }}</td>
 					<td>
 						<a href="#" onclick={{ this.function_remove }}>
-							usun z koszyka
+							remove from the cart
 						</a>	
 					</td>
 				</tr>
@@ -159,19 +159,19 @@
 	{{/if}}
 	<br>
 	<a href="#" class="btn btn-large btn-primary" onClick="useCase.confirmOrder()">
-		Potwierdz zamowienie
+		Confirm order.
 	</a>
 	</center>	
 </script>
 
 <script type="x-handlebars-template" id="cart-small-template">
 	{{#if empty}}
-		Basket is empty!.<br>
+		Your cart is empty!.<br>
 	{{else}}
 		<table border="1" cellpadding="6">
 			<tr align="center">
-				<td>Tytuł</td>
-				<td>Ilość</td>
+				<td>Title</td>
+				<td>Quantity</td>
 			</tr>
 			{{#each orderItems}}
 				<tr align="center">
@@ -183,7 +183,7 @@
 					<td>{{ this.quantity }}</td>
 					<td>
 						<a href="#" onclick={{ this.function_remove }}>
-							usun z koszyka
+							remove from the cart
 						</a>	
 					</td>
 				</tr>
@@ -205,8 +205,8 @@
 </script>
 
 <script type="x-handlebars-template" id="get-buyers-data-template">
-	Nie masz konta, podaj dane do zamówienia: <br>
-	<form name="myform" action="" method="GET">Enter something in the box: <br><br>
+	You dont have an account, type in your personal data: <br>
+	<form name="myform" action="" method="GET">
 	<label>First name</label>
 	<input type="text" name="firstName" value=""><p>
 	<label>Second name</label>
