@@ -126,7 +126,7 @@
 		You dont have an account yet!<br>
 	{{/if}}
 	{{#if empty}}
-		Your cart is empty! <br>
+		Your cart is empty! <br><br>
 	{{else}}
 		List of items in your cart: <br>
 		<table border="1" cellpadding="6">
@@ -156,11 +156,11 @@
 				</tr>
 			{{/each}}
 		</table>
+		<br>
+		<a href="#" class="btn btn-large btn-primary" onClick="useCase.confirmOrder()">
+			Confirm order.
+		</a>
 	{{/if}}
-	<br>
-	<a href="#" class="btn btn-large btn-primary" onClick="useCase.confirmOrder()">
-		Confirm order.
-	</a>
 	<a href="#" class="btn btn-large btn-primary" onClick={{ goBackFunction }}>
 		Continue shopping.
 	</a>
@@ -223,15 +223,19 @@
 </script>
 
 <script type="x-handlebars-template" id="search-result-template">
-	<h1> Search results </h1>	
-	<ul class="products_list">
-	{{#each products}}
-		<li>
-			{{ this.author }}
-			<a href="#" onclick={{ this.function_name }}>
-				{{ this.title }}
-			</a>
-		</li>
-	{{/each}}
-	</ul>
+	<h1> Search results </h1>
+	{{#if empty}}
+		No matches found!
+	{{else}}
+		<ul class="products_list">
+		{{#each products}}
+			<li>
+				{{ this.author }}
+				<a href="#" onclick={{ this.function_name }}>
+					{{ this.title }}
+				</a>
+			</li>
+		{{/each}}
+		</ul>
+	{{/if}}
 </script>

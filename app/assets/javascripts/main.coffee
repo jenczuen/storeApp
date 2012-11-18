@@ -357,11 +357,14 @@ class Gui
 
 		if items.length < 1
 			goBackFunction = "useCase.showHomePage()"
+			empty = true
 		else
 			category_id = items[items.length-1].product.category_id
 			goBackFunction = "useCase.showCategory("+category_id+")"
+			empty = false
 
 		data = { 
+					empty: empty
 					goBackFunction: goBackFunction, 
 					orderItems: [],
 					hasAccount,
@@ -425,7 +428,13 @@ class Gui
 	showSearchResult: (products) =>
 		source = $("#search-result-template").html()
 		template = Handlebars.compile(source)
-		data = { products: [] }
+		empty = false
+		if products.length < 1
+			empty = true
+		data = { 
+					empty: empty, 
+					products: [] 
+				}
 		for product in products
 			data.products.push({
 									author: product.author
@@ -461,7 +470,6 @@ class Glue
 
 		Before(@useCase, 'showCart', => @gui.clearAll())
 		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent,@useCase.buyerData))
-#		After(@useCase, 'showCart', => @gui.showCart(@useCase.cartContent,@useCase.currentProductsCategory.id))
 
 		After(@useCase, 'updateSmallCart', => @gui.updateSmallCart(@useCase.cartContent))
 
