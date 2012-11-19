@@ -18,4 +18,9 @@
 //= require YouAreDaBomb
 //= require utils
 //= require sugar-1.3.min
-//= require spa
+//= require database_api
+//= require use_cases
+//= require gui
+//= require glue
+//= require models
+//= require main
