@@ -18,4 +18,4 @@
 //= require YouAreDaBomb
 //= require utils
 //= require sugar-1.3.min
-//= require main
+//= require spa

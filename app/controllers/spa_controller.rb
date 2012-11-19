@@ -92,7 +92,6 @@ class SpaController < ApplicationController
 	end
 
 	def searchProducts
-		puts params[:q]
 		search = Product.search(params[:q])
 		search_result = search.result
 		respond_to do |format|
