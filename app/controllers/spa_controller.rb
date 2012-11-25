@@ -61,10 +61,11 @@ class SpaController < ApplicationController
 		#not the best way but works
 		order = current_buyer.current_order
 		#remove all
-		order.order_items.each {|i| i.delete}	
+		order.order_items.each {|i| i.delete}
 		if params[:items] != nil
 			#add from scratch
 			for new_item in params[:items]
+
 				product_id = new_item[1][:product_id]
 				quantity = new_item[1][:quantity]
 
