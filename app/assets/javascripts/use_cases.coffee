@@ -1,4 +1,4 @@
-class window.UseCases
+class UseCases
 	constructor: ->
 		@allProducts = []
 		@currentProducts = []
@@ -9,8 +9,10 @@ class window.UseCases
 		@cartContent = []
 		@buyerData = null
 		@searchRequest = null
+		@initialized = false
 
 	init: =>
+		@initialized = true		
 
 	setInitialProducts: (products) =>
 		@allProducts = products

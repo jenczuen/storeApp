@@ -1,4 +1,4 @@
-class window.Glue
+class Glue
 	constructor: (@useCase, @gui, @storage)->
 		AutoBind(@gui, @useCase)
 

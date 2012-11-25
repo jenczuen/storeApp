@@ -1,5 +1,5 @@
-class window.Gui
-	constructor: ->
+class Gui
+	constructor: ()->
 
 	clearAll: =>
 		$("#home-page").html("")

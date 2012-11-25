@@ -1,4 +1,4 @@
-class window.DatabaseApi
+class DatabaseApi
 	constructor: ->
 		@json_data = null
 		@products = null
