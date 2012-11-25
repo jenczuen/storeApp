@@ -22,7 +22,7 @@ class SpaController < ApplicationController
 	def getSessionId
 		current_buyer
 		respond_to do |format|
-			format.json { render :json => session[:current_buyer_id] }
+			format.json { render :json => cookies[:current_buyer_id] }
 			end
 	end
 
@@ -33,14 +33,13 @@ class SpaController < ApplicationController
 	end
 
 	def	sendCurrentBuyer
-		b = Buyer.last()
+		b = current_buyer
 		b.firstName = params[:firstName]
 		b.secondName = params[:secondName]
 		b.street = params[:street]
 		b.city = params[:city]
 		b.hasAccount = true
 		b.save
-		puts b
 		respond_to do |format|
 			format.json { render :json => "ok" }
 		end
