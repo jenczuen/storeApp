@@ -23,7 +23,7 @@ class SpaController < ApplicationController
 		current_buyer
 		respond_to do |format|
 			format.json { render :json => session[:current_buyer_id] }
-		end
+			end
 	end
 
 	def getCurrentBuyer
@@ -65,7 +65,6 @@ class SpaController < ApplicationController
 		if params[:items] != nil
 			#add from scratch
 			for new_item in params[:items]
-				puts 3
 				product_id = new_item[1][:product_id]
 				quantity = new_item[1][:quantity]
 
